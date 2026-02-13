@@ -1,36 +1,86 @@
-<script>
-    const countDisplay = document.getElementById('like-count');
-    const heartIcon = document.getElementById('heart-icon');
-    const key = "meliqoziyev_uz_likes"; // Sizning saytingiz uchun maxsus kalit
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meliqoziyev | Portfolio</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #0f172a; color: white; margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { max-width: 450px; width: 100%; }
+        .card { background: #1e293b; padding: 25px; border-radius: 24px; text-align: center; border: 1px solid #334155; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        h1 { color: #38bdf8; margin: 0; font-size: 26px; }
+        
+        /* Layk tugmasi */
+        .like-section { display: inline-flex; align-items: center; gap: 8px; background: #334155; padding: 8px 18px; border-radius: 30px; cursor: pointer; margin: 15px 0; border: 1px solid #475569; }
+        .heart { font-size: 20px; color: #94a3b8; }
+        .heart.liked { color: #ef4444; }
 
-    // Umumiy layklar sonini olish
-    fetch(`https://api.countapi.xyz/get/trading0911/${key}`)
-        .then(res => res.json())
-        .then(data => {
-            countDisplay.innerText = data.value || 0;
-        })
-        .catch(() => countDisplay.innerText = 0);
+        .btn { display: block; background: #38bdf8; color: #0f172a; text-decoration: none; padding: 14px; border-radius: 15px; font-weight: bold; text-align: center; }
+        .section-title { width: 100%; text-align: left; font-size: 18px; color: #38bdf8; margin: 25px 0 12px 0; border-bottom: 1px solid #334155; padding-bottom: 8px; font-weight: bold; }
+        .item-box { background: #1e293b; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; border: 1px solid #334155; }
 
-    function toggleLike() {
+        /* Yutuqlar va Kinolar */
+        .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .gallery-item { background: #1e293b; border-radius: 15px; padding: 10px; border: 1px solid #334155; text-align: center; text-decoration: none; color: white; }
+        .gallery-item img { width: 100%; border-radius: 10px; }
+        
+        .movie-box { display: flex; align-items: center; gap: 15px; background: #1e293b; padding: 12px; border-radius: 15px; margin-bottom: 10px; border: 1px solid #334155; }
+        .footer { margin-top: 40px; font-size: 12px; color: #475569; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <h1>Meliqoziyev.uz</h1>
+            <p style="color:#94a3b8; font-size:14px;">Cyber Security Specialist</p>
+            <div class="like-section" onclick="toggleLike()">
+                <span id="heart-icon" class="heart">❤</span>
+                <span id="like-count">0</span> ta layk
+            </div>
+            <a href="https://t.me/Pain_2007" class="btn">Telegram orqali bog'lanish</a>
+        </div>
+
+        <div class="section-title">Bilimlarim (Skills)</div>
+        <div class="item-box"><span>HTML / CSS</span> <span>80%</span></div>
+        <div class="item-box"><span>Kiber xavfsizlik</span> <span>Tayyorlanmoqda</span></div>
+
+        <div class="section-title">Mening yutuqlarim</div>
+        <div class="gallery">
+            <div class="gallery-item"><img src="IMG_20260128_181920.jpg" alt="1"><span>Sertifikat</span></div>
+            <div class="gallery-item"><img src="IMG_20260128_182125.jpg" alt="2"><span>Sertifikat</span></div>
+        </div>
+
+        <div class="section-title">Ko'rgan kinolarim</div>
+        <div class="movie-box"><span>💻</span> Mr. Robot (IMDB: 8.5)</div>
+        <div class="movie-box"><span>🎭</span> Who Am I (IMDB: 7.5)</div>
+        <div class="movie-box"><span>🕶</span> Matrix (IMDB: 8.7)</div>
+
+        <div class="footer">© 2026 Meliqoziyev. Barcha huquqlar himoyalangan.</div>
+    </div>
+
+    <script>
+        let count = parseInt(localStorage.getItem('likeCount')) || 0;
         let isLiked = localStorage.getItem('isLiked') === 'true';
+        document.getElementById('like-count').innerText = count;
+        if(isLiked) document.getElementById('heart-icon').classList.add('liked');
 
-        if (!isLiked) {
-            // Layk qo'shish (API orqali)
-            fetch(`https://api.countapi.xyz/hit/trading0911/${key}`)
-                .then(res => res.json())
-                .then(data => {
-                    countDisplay.innerText = data.value;
-                    heartIcon.classList.add('liked');
-                    localStorage.setItem('isLiked', 'true');
-                });
-        } else {
-            // Bir marta bosgan odam boshqa bosa olmaydi (yoki shunchaki xabar)
-            alert("Siz allaqachon layk bosgansiz!");
+        function toggleLike() {
+            let countElement = document.getElementById('like-count');
+            let heart = document.getElementById('heart-icon');
+            if(!isLiked) {
+                count++;
+                isLiked = true;
+                heart.classList.add('liked');
+            } else {
+                count--;
+                isLiked = false;
+                heart.classList.remove('liked');
+            }
+            localStorage.setItem('likeCount', count);
+            localStorage.setItem('isLiked', isLiked);
+            countElement.innerText = count;
         }
-    }
-
-    // Agar oldin bosgan bo'lsa, yurakni qizil qilib qo'yish
-    if (localStorage.getItem('isLiked') === 'true') {
-        heartIcon.classList.add('liked');
-    }
-</script>
+    </script>
+</body>
+</html>
