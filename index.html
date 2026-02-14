@@ -9,7 +9,7 @@
         
         body {
             margin: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: #0d1117;
             color: #ffffff;
             display: flex;
@@ -31,75 +31,84 @@
             width: 90%; 
             max-width: 400px; 
             text-align: center; 
-            padding: 40px 20px;
+            padding-top: 50px;
             z-index: 1;
         }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
+        /* ANTIQA KATTA SOAT */
+        .neon-clock {
+            font-family: 'Courier New', monospace;
+            font-size: 55px;
+            font-weight: 900;
+            color: #58a6ff;
+            text-shadow: 0 0 20px rgba(88, 166, 255, 0.8);
+            margin-bottom: 5px;
+            letter-spacing: 3px;
+        }
+
+        .ip-info {
             font-family: monospace;
-            font-size: 12px;
+            font-size: 13px;
             color: #8b949e;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
 
         .avatar-box { 
-            width: 110px; height: 110px; 
+            width: 100px; height: 100px; 
             background: rgba(255, 255, 255, 0.05); 
             border-radius: 50%; 
-            margin: 0 auto 20px; 
+            margin: 0 auto 15px; 
             display: flex; align-items: center; justify-content: center; 
             font-size: 45px; 
             border: 2px solid #30363d;
         }
 
-        h1 { font-size: 32px; font-weight: 700; margin-bottom: 5px; }
+        h1 { font-size: 30px; letter-spacing: -1px; margin-bottom: 5px; }
         
-        #typing { 
-            color: #58a6ff; 
-            font-weight: 600; 
-            font-size: 19px; 
-            margin-bottom: 30px;
-            min-height: 25px;
-        }
+        #typing { color: #58a6ff; font-weight: 600; font-size: 18px; min-height: 25px; margin-bottom: 30px; }
 
         .card { 
             background: rgba(255, 255, 255, 0.03); 
             border: 1px solid #30363d; 
             border-radius: 12px; 
             padding: 18px; 
-            margin-top: 15px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             color: #fff;
-            font-size: 18px;
             font-weight: 600;
             transition: 0.3s;
             gap: 10px;
         }
 
-        .card:hover { 
-            border-color: #58a6ff; 
-            background: rgba(88, 166, 255, 0.08);
-            transform: translateY(-2px); 
-        }
+        .card:hover { border-color: #58a6ff; background: rgba(88, 166, 255, 0.05); }
 
-        .like-pill {
-            display: inline-flex;
+        /* CHAP TARAFIY YURAK */
+        .bottom-left-like {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.07);
             border: 1px solid #30363d;
-            padding: 12px 28px;
-            border-radius: 30px;
+            padding: 10px 15px;
+            border-radius: 50px;
             cursor: pointer;
-            margin-top: 40px;
+            z-index: 10;
+            animation: heartBeat 2s infinite;
         }
 
-        .footer-text { margin-top: 50px; font-size: 11px; color: #484f58; }
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 15px rgba(237, 73, 86, 0.3); }
+            100% { transform: scale(1); }
+        }
+
+        .footer { margin-top: 40px; font-size: 11px; color: #484f58; }
     </style>
 </head>
 <body>
@@ -107,10 +116,8 @@
     <canvas id="effect-canvas"></canvas>
 
     <div class="container">
-        <div class="top-bar">
-            <span id="ip-display">IP: Detecting...</span>
-            <span id="time-display">00:00:00</span>
-        </div>
+        <div class="neon-clock" id="clock">00:00</div>
+        <div class="ip-info" id="ip">IP: Detecting...</div>
 
         <div class="avatar-box">🥷</div>
         <h1>meliqoziyev.uz</h1>
@@ -126,93 +133,74 @@
             <span>Ilk hamkorim: UzClaver</span>
         </a>
 
-        <div class="like-pill" onclick="handleLike()">
-            <span style="color: #ed4956; font-size: 22px;">❤️</span>
-            <span id="count" style="font-weight: 700; font-size: 20px;">350</span>
-        </div>
+        <div class="footer">© 2026 meliqoziyev.uz</div>
+    </div>
 
-        <div class="footer-text">© 2026 meliqoziyev.uz</div>
+    <div class="bottom-left-like" onclick="handleLike()">
+        <span style="font-size: 20px;">❤️</span>
+        <span id="like-count" style="font-weight: bold;">350</span>
     </div>
 
     <script>
-        // --- 1. SOAT VA IP ---
-        setInterval(() => { document.getElementById('time-display').innerText = new Date().toLocaleTimeString(); }, 1000);
-        fetch('https://api.ipify.org?format=json').then(res => res.json()).then(data => document.getElementById('ip-display').innerText = "IP: " + data.ip);
+        // SOAT VA IP
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock').innerText = 
+                String(now.getHours()).padStart(2, '0') + ":" + 
+                String(now.getMinutes()).padStart(2, '0');
+        }
+        setInterval(updateTime, 1000); updateTime();
+        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => document.getElementById('ip').innerText = "SYSTEM IP: " + d.ip);
 
-        // --- 2. TYPING EFFECT ---
-        const text = "Cyber Security Specialist_";
-        let idx = 0;
+        // YOZILISH EFFEKTI
+        const txt = "Cyber Security Specialist_";
+        let i = 0;
         function type() {
-            if (idx < text.length) {
-                document.getElementById("typing").innerHTML += text.charAt(idx);
-                idx++; setTimeout(type, 120);
+            if(i < txt.length) {
+                document.getElementById('typing').innerHTML += txt.charAt(i);
+                i++; setTimeout(type, 120);
             }
         }
         type();
 
-        // --- 3. QOR VA QOR SACHRASH ---
+        // QOR VA SACHRASH
         const canvas = document.getElementById('effect-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        let snow = [];
-        let splashes = [];
+        let snow = [], splashes = [];
 
-        class SnowNode {
+        class Snow {
             constructor() { this.reset(); this.y = Math.random() * canvas.height; }
-            reset() { 
-                this.x = Math.random() * canvas.width; 
-                this.y = -10; 
-                this.size = Math.random() * 3 + 1; 
-                this.speed = Math.random() * 1 + 0.5; 
-                this.opacity = Math.random() * 0.5 + 0.3;
-            }
-            update() { this.y += this.speed; if (this.y > canvas.height) this.reset(); }
-            draw() { 
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; 
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); 
-            }
+            reset() { this.x = Math.random() * canvas.width; this.y = -10; this.sz = Math.random() * 3 + 1; this.sp = Math.random() * 1 + 0.5; }
+            update() { this.y += this.sp; if(this.y > canvas.height) this.reset(); }
+            draw() { ctx.fillStyle = "rgba(255,255,255,0.4)"; ctx.beginPath(); ctx.arc(this.x, this.y, this.sz, 0, Math.PI*2); ctx.fill(); }
         }
 
-        class SnowSplash {
-            constructor(x, y) {
-                this.x = x; this.y = y;
-                this.size = Math.random() * 3 + 1;
-                this.vX = Math.random() * 4 - 2;
-                this.vY = Math.random() * 4 - 2;
-                this.alpha = 1;
-            }
-            update() { this.x += this.vX; this.y += this.vY; this.alpha -= 0.02; }
-            draw() {
-                ctx.globalAlpha = this.alpha;
-                ctx.fillStyle = "#ffffff";
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
-                ctx.globalAlpha = 1;
-            }
+        class Splash {
+            constructor(x, y) { this.x = x; this.y = y; this.sz = Math.random()*3+1; this.vx = Math.random()*6-3; this.vy = Math.random()*6-3; this.a = 1; }
+            update() { this.x += this.vx; this.y += this.vy; this.a -= 0.02; }
+            draw() { ctx.globalAlpha = this.a; ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(this.x, this.y, this.sz, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1; }
         }
 
-        for(let i=0; i<100; i++) snow.push(new SnowNode());
+        for(let j=0; j<100; j++) snow.push(new Snow());
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function loop() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
             snow.forEach(s => { s.update(); s.draw(); });
-            splashes.forEach((p, index) => {
-                p.update(); p.draw();
-                if(p.alpha <= 0) splashes.splice(index, 1);
-            });
-            requestAnimationFrame(animate);
+            splashes.forEach((s, k) => { s.update(); s.draw(); if(s.a <= 0) splashes.splice(k, 1); });
+            requestAnimationFrame(loop);
         }
-        animate();
+        loop();
 
         window.addEventListener('pointerdown', (e) => {
-            for(let i=0; i<10; i++) splashes.push(new SnowSplash(e.clientX, e.clientY));
+            for(let j=0; j<12; j++) splashes.push(new Splash(e.clientX, e.clientY));
         });
 
         function handleLike() {
-            const countEl = document.getElementById('count');
-            countEl.innerText = parseInt(countEl.innerText) + 1;
-            for(let i=0; i<15; i++) splashes.push(new SnowSplash(window.innerWidth/2, window.innerHeight/2 + 100));
+            document.getElementById('like-count').innerText = parseInt(document.getElementById('like-count').innerText) + 1;
+            for(let j=0; j<15; j++) splashes.push(new Splash(50, window.innerHeight - 50));
         }
 
         window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
