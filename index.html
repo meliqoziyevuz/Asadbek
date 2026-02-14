@@ -3,161 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev.uz | Hacker Portfolio</title>
+    <title>Meliqoziyev.uz | Snow Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000; color: #00ff00; font-family: 'Courier New', monospace; overflow: hidden; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
-        /* --- 1. VIDEO INTRO (5 SEKUND) --- */
+        /* --- INTRO VIDEO --- */
         #video-intro {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 9999;
             background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
-        #hacker-video { width: 100%; height: 100%; object-fit: cover; }
+        #intro-video-element { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- 2. ASOSIY SAYT --- */
-        #main-content {
-            display: none; 
+        /* --- ASOSIY SAYT --- */
+        #main-site {
+            display: none;
             opacity: 0;
             height: 100vh;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 1.5s ease-in;
+            transition: opacity 1s ease;
+            position: relative;
+            z-index: 10;
         }
 
-        /* MATRIX CANVAS FON */
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        /* QOR FONINI CHIZISH UCHUN CANVAS */
+        #snow-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-        /* HAKKERONA PROFIL RASMI */
+        /* PROFIL */
         .avatar-box {
-            width: 130px; height: 130px;
+            width: 120px; height: 120px;
             border-radius: 50%;
-            border: 2px solid #00ff00;
-            margin-bottom: 20px;
+            border: 2px solid #fff;
+            margin-bottom: 15px;
             overflow: hidden;
-            box-shadow: 0 0 25px #00ff00;
-            background: #000;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* SEN AYTGAN YOZUV: MELIQOZIYEV.UZ */
-        h1 { font-size: 32px; letter-spacing: 5px; text-shadow: 0 0 15px #00ff00; margin-bottom: 5px; text-transform: lowercase; }
-        
-        #typing { color: #00ff00; font-size: 15px; margin-bottom: 30px; font-weight: bold; }
+        h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 30px; }
 
-        /* TUGMALAR (IXCHAM RAMKA) */
+        /* TUGMALAR */
         .card {
             width: 300px;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 12px;
-            border: 1px solid #00ff00;
-            background: rgba(0, 40, 0, 0.2);
-            color: #00ff00;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
             text-decoration: none;
             text-align: center;
-            font-weight: bold;
-            font-size: 17px;
+            font-weight: 600;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            clip-path: polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%);
+            backdrop-filter: blur(5px);
             transition: 0.3s;
         }
-        .card:hover { background: #00ff00; color: #000; box-shadow: 0 0 20px #00ff00; }
-
-        #clock { position: fixed; top: 30px; right: 30px; font-size: 24px; font-weight: bold; transition: color 0.5s; }
+        .card:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.02); }
+        
+        #clock { position: fixed; top: 20px; right: 20px; font-size: 20px; font-weight: bold; z-index: 20; }
     </style>
 </head>
-<body>
+<body onmousedown="createBurst(event)">
 
     <div id="video-intro">
-        <video id="hacker-video" autoplay muted playsinline>
+        <video id="intro-video-element" autoplay muted playsinline>
             <source src="https://assets.mixkit.co/videos/preview/mixkit-matrix-style-green-digital-binary-code-41203-large.mp4" type="video/mp4">
         </video>
     </div>
 
-    <canvas id="bg-canvas"></canvas>
-    <div id="main-content">
+    <canvas id="snow-canvas"></canvas>
+
+    <div id="main-site">
         <div id="clock">00:00:00</div>
         
         <div class="avatar-box">
-             <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Hacker Meliqoziyev">
+             <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Meliqoziyev">
         </div>
 
         <h1>meliqoziyev.uz</h1>
-        <div id="typing">> SYSTEM_ACCESS_GRANTED_</div>
 
         <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card">
-            <i class="fab fa-instagram"></i> INSTAGRAM
+            <i class="fab fa-instagram" style="color: #e4405f;"></i> Instagram
         </a>
         <a href="https://t.me/Pain_2007" target="_blank" class="card">
-            <i class="fab fa-telegram"></i> TELEGRAM
+            <i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram
         </a>
         <a href="https://youtube.com/@uzclaver_official" target="_blank" class="card">
-            <i class="fab fa-youtube"></i> UZCLAVER
+            <i class="fab fa-youtube" style="color: #FF0000;"></i> UzClaver
         </a>
     </div>
 
     <script>
-        // 5 SEKUNDDAN KEYIN VIDEODAN SAYTGA O'TISH
+        // --- 5 SEKUNDDAN KEYIN O'TISH ---
         setTimeout(() => {
             const intro = document.getElementById('video-intro');
-            const main = document.getElementById('main-content');
+            const main = document.getElementById('main-site');
             intro.style.transition = "opacity 1s";
             intro.style.opacity = "0";
             setTimeout(() => {
                 intro.style.display = "none";
                 main.style.display = "flex";
-                setTimeout(() => { main.style.opacity = "1"; }, 50);
-                initMatrix();
+                setTimeout(() => main.style.opacity = "1", 50);
+                initSnow();
                 startClock();
             }, 1000);
         }, 5000);
 
-        // SOAT (Har 5 sekundda rang almashadi)
+        // --- SOAT ---
         function startClock() {
-            const colors = ['#00ff00', '#00ffff', '#ffffff', '#ffff00'];
             setInterval(() => {
-                const now = new Date();
-                if (now.getSeconds() % 5 === 0) {
-                    document.getElementById('clock').style.color = colors[Math.floor(Math.random() * colors.length)];
-                }
-                document.getElementById('clock').innerText = now.toLocaleTimeString();
+                document.getElementById('clock').innerText = new Date().toLocaleTimeString();
             }, 1000);
         }
 
-        // MATRIX YOMG'IRI
-        function initMatrix() {
-            const canvas = document.getElementById('bg-canvas');
-            const ctx = canvas.getContext('2d');
+        // --- QOR EFFEKTI ---
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initSnow() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            const letters = "010101010101";
-            const fontSize = 16;
-            const columns = canvas.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-            function draw() {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "#004400";
-                ctx.font = fontSize + "px monospace";
-                for (let i = 0; i < drops.length; i++) {
-                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                }
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Snowflake());
             }
-            setInterval(draw, 33);
+            animate();
+        }
+
+        class Snowflake {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 1 + 0.5;
+                this.velX = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.y += this.speed;
+                this.x += this.velX;
+                if (this.y > canvas.height) this.y = -10;
+            }
+            draw() {
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // --- QOR SACHRASHI (BURST) ---
+        function createBurst(e) {
+            for (let i = 0; i < 15; i++) {
+                let p = new Snowflake();
+                p.x = e.clientX;
+                p.y = e.clientY;
+                p.speed = Math.random() * 4 - 2;
+                p.velX = Math.random() * 4 - 2;
+                particles.push(p);
+                // 2 sekunddan keyin sachragan qorlarni kamaytirish
+                setTimeout(() => particles.shift(), 2000);
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
         }
     </script>
 </body>
