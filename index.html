@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev | Dynamic Cyber Portfolio</title>
+    <title>Meliqoziyev | Security Portfolio</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #080a0f;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #05070a;
             color: #ffffff;
             display: flex;
             justify-content: center;
             min-height: 100vh;
-            overflow: hidden;
-            touch-action: none;
+            overflow-x: hidden;
+            padding-bottom: 50px;
         }
 
         #effect-canvas {
@@ -27,202 +27,194 @@
             z-index: 0;
         }
 
-        /* --- DINAMIK SOAT RAMKASI --- */
-        .cyber-clock-container {
+        #alert-overlay {
             position: fixed;
-            top: 25px;
-            right: 25px;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #30363d;
-            z-index: 10;
-            clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 100%, 0 100%);
-            transition: border-color 1s ease;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+            animation: flash 0.3s infinite;
         }
 
-        .time-val {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 26px;
-            font-weight: bold;
-            display: block;
-            transition: color 1s ease, text-shadow 1s ease;
-        }
+        @keyframes flash { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 
-        .date-val {
-            font-size: 9px;
-            color: #8b949e;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* --- ASOSIY KONTEYNER --- */
         .container { 
             width: 90%; 
-            max-width: 400px; 
+            max-width: 450px; 
             text-align: center; 
-            padding-top: 100px;
+            padding: 80px 0 30px;
             z-index: 1;
         }
 
-        .ip-box {
-            font-family: monospace;
-            font-size: 11px;
-            color: #58a6ff;
-            margin-bottom: 25px;
-            opacity: 0.7;
+        .cyber-clock {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #30363d;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10;
+            transition: 0.5s;
         }
 
         .avatar-box { 
-            width: 110px; height: 110px; 
+            width: 120px; height: 120px; 
             background: rgba(255, 255, 255, 0.03); 
             border-radius: 20px;
-            margin: 0 auto 20px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 50px; 
+            margin: 0 auto 15px; 
             border: 1px solid #30363d;
-            transform: rotate(-3deg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        h1 { font-size: 26px; margin-bottom: 5px; letter-spacing: -1px; }
+        #typing { color: #58a6ff; font-size: 14px; margin-bottom: 25px; min-height: 20px; }
+
+        .info-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 12px;
         }
 
-        h1 { font-size: 32px; font-weight: 800; margin-bottom: 5px; }
-        
-        #typing { color: #58a6ff; font-family: monospace; font-size: 17px; margin-bottom: 40px; height: 20px; }
-
         .card { 
-            background: rgba(255, 255, 255, 0.02); 
+            background: #161b22; 
             border: 1px solid #30363d; 
             border-radius: 10px; 
-            padding: 18px; 
-            margin-bottom: 12px;
+            padding: 14px; 
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             color: #fff;
             font-weight: 600;
+            font-size: 13px;
             transition: 0.3s;
-            gap: 12px;
+            gap: 10px;
         }
+        .card:hover { border-color: #58a6ff; transform: translateX(5px); }
 
-        .card:hover { border-color: #58a6ff; background: rgba(88, 166, 255, 0.05); transform: translateX(5px); }
+        .insta:hover { border-color: #e4405f; background: rgba(228, 64, 95, 0.1); }
 
-        /* --- CHAP TARAFIY YURAK --- */
         .heart-btn {
             position: fixed;
-            bottom: 30px;
-            left: 30px;
+            bottom: 20px;
+            left: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: #161b22;
             border: 1px solid #30363d;
-            padding: 12px 18px;
-            border-radius: 12px;
+            padding: 10px 18px;
+            border-radius: 50px;
             cursor: pointer;
             z-index: 10;
         }
-
-        .footer-txt { margin-top: 50px; font-size: 10px; color: #484f58; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
     <canvas id="effect-canvas"></canvas>
+    <div id="alert-overlay"></div>
 
-    <div class="cyber-clock-container" id="clock-box">
-        <span class="date-val">Minute Shift</span>
-        <span class="time-val" id="clock">00:00:00</span>
+    <div class="cyber-clock" id="clock-box">
+        <span id="clock">00:00:00</span>
     </div>
 
     <div class="container">
-        <div class="ip-box" id="ip">ENCRYPTED_ID...</div>
+        <div class="avatar-box" onclick="triggerAccessDenied()">
+            <img src="https://via.placeholder.com/150" alt="Meliqoziyev">
+        </div>
 
-        <div class="avatar-box">🥷</div>
         <h1>meliqoziyev.uz</h1>
         <div id="typing"></div>
-        
+
+        <div class="info-block">
+            <span style="font-size: 10px; color: #8b949e; letter-spacing: 2px;">TECHNICAL STATUS</span>
+            <p style="font-size: 12px; line-height: 1.6; margin-top: 5px;">
+                [+] Penetration Testing<br>
+                [+] System Security<br>
+                [+] Python Automation
+            </p>
+        </div>
+
+        <a href="https://www.instagram.com/ezz_mafiya/" target="_blank" class="card insta">
+            <span>📸</span> Instagram: @ezz_mafiya
+        </a>
+
         <a href="https://t.me/Pain_2007" target="_blank" class="card">
-            <span>✈️</span>
-            <span>BOG'LANISH</span>
+            <span>✈️</span> Telegram Kontakt
         </a>
 
         <a href="https://youtube.com/@uzclaver_official" target="_blank" class="card">
-            <span style="color: #ff0000;">▶️</span>
-            <span>ILK HAMKORIM: UzClaver</span>
+            <span style="color: red;">▶️</span> Ilk Hamkorim: UzClaver
         </a>
 
-        <div class="footer-txt">PORTFOLIO v4.0 // 2026</div>
+        <p style="font-size: 10px; color: #484f58; margin-top: 30px;">SECURE_CONNECTION_v6.2</p>
     </div>
 
     <div class="heart-btn" onclick="handleLike()">
-        <span style="color: #ed4956; font-size: 20px;">❤️</span>
-        <span id="like-count" style="font-weight: bold;">352</span>
+        <span>❤️</span><span id="like-count">352</span>
     </div>
 
     <script>
-        // 1. HAR MINUTDA O'ZGARUVCHI RANG KODI
-        const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff', '#58a6ff', '#ffa500'];
-        let lastMinute = -1;
-
+        // HAR MINUTDA RANG O'ZGARISHI
+        const colors = ['#ff4a4a', '#00ff00', '#00ffff', '#ffff00', '#58a6ff', '#ff00ff'];
+        let lastMin = -1;
         function updateClock() {
             const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            
-            const clockEl = document.getElementById('clock');
-            const currentMinute = now.getMinutes();
-
-            // Agar yangi minut kirsa rangni o'zgartir
-            if (currentMinute !== lastMinute) {
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                clockEl.style.color = randomColor;
-                clockEl.style.textShadow = `0 0 15px ${randomColor}`;
-                document.getElementById('clock-box').style.borderColor = randomColor;
-                lastMinute = currentMinute;
+            if (now.getMinutes() !== lastMin) {
+                const c = colors[Math.floor(Math.random() * colors.length)];
+                document.getElementById('clock-box').style.color = c;
+                document.getElementById('clock-box').style.borderColor = c;
+                lastMin = now.getMinutes();
             }
-
-            clockEl.innerText = `${h}:${m}:${s}`;
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
         }
         setInterval(updateClock, 1000); updateClock();
 
-        // 2. IP MANZIL
-        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => {
-            document.getElementById('ip').innerText = "SYSTEM_NODE: " + d.ip;
-        });
-
-        // 3. YOZILISH EFFEKTI
-        const txt = "> Cyber Security Specialist";
-        let i = 0;
-        function type() {
-            if(i < txt.length) {
-                document.getElementById('typing').innerHTML += txt.charAt(i);
-                i++; setTimeout(type, 100);
-            }
+        // ACCESS DENIED
+        function triggerAccessDenied() {
+            const overlay = document.getElementById('alert-overlay');
+            overlay.style.display = 'block';
+            setTimeout(() => { overlay.style.display = 'none'; }, 1000);
         }
+
+        // ESKI YOZILISH EFFEKTI
+        const txt = "> Cyber Security Specialist_";
+        let i = 0;
+        function type() { if(i < txt.length) { document.getElementById('typing').innerHTML += txt.charAt(i); i++; setTimeout(type, 100); } }
         type();
 
-        // 4. QOR VA SACHRASH
+        // CANVADAGI EFFEKTLAR
         const canvas = document.getElementById('effect-canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         let snow = [], splashes = [];
 
         class Snow {
             constructor() { this.reset(); this.y = Math.random() * canvas.height; }
-            reset() { this.x = Math.random() * canvas.width; this.y = -10; this.sz = Math.random() * 2 + 1; this.sp = Math.random() * 1 + 0.4; }
+            reset() { this.x = Math.random() * canvas.width; this.y = -10; this.sz = Math.random() * 2 + 1; this.sp = Math.random() * 0.8 + 0.4; }
             update() { this.y += this.sp; if(this.y > canvas.height) this.reset(); }
-            draw() { ctx.fillStyle = "rgba(255,255,255,0.3)"; ctx.beginPath(); ctx.arc(this.x, this.y, this.sz, 0, Math.PI*2); ctx.fill(); }
+            draw() { ctx.fillStyle = "rgba(255,255,255,0.2)"; ctx.beginPath(); ctx.arc(this.x, this.y, this.sz, 0, Math.PI*2); ctx.fill(); }
         }
 
         class Splash {
-            constructor(x, y) { this.x = x; this.y = y; this.sz = Math.random()*3+1; this.vx = Math.random()*6-3; this.vy = Math.random()*6-3; this.a = 1; }
+            constructor(x, y) { this.x = x; this.y = y; this.sz = Math.random()*2+1; this.vx = Math.random()*6-3; this.vy = Math.random()*6-3; this.a = 1; }
             update() { this.x += this.vx; this.y += this.vy; this.a -= 0.02; }
             draw() { ctx.globalAlpha = this.a; ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(this.x, this.y, this.sz, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1; }
         }
 
-        for(let j=0; j<70; j++) snow.push(new Snow());
+        for(let j=0; j<60; j++) snow.push(new Snow());
 
         function loop() {
             ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -232,9 +224,7 @@
         }
         loop();
 
-        window.addEventListener('pointerdown', (e) => {
-            for(let j=0; j<12; j++) splashes.push(new Splash(e.clientX, e.clientY));
-        });
+        window.addEventListener('pointerdown', (e) => { for(let j=0; j<10; j++) splashes.push(new Splash(e.clientX, e.clientY)); });
 
         function handleLike() {
             document.getElementById('like-count').innerText = parseInt(document.getElementById('like-count').innerText) + 1;
