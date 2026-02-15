@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev.uz | Interaktiv</title>
+    <title>meliqoziyev.uz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000; color: #fff; font-family: 'Courier New', monospace; overflow: hidden; height: 100vh; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; height: 100vh; }
 
-        /* INTRO QISMI (9 SEKUND) */
+        /* INTRO QISMI (7 SEKUND) */
         #intro-screen {
             position: fixed;
             top: 0; left: 0;
@@ -25,11 +25,12 @@
         .welcome-box { position: relative; z-index: 10001; text-align: center; }
         .line {
             display: block; font-size: 50px; font-weight: 900; letter-spacing: 15px;
-            text-transform: uppercase; color: #fff; text-shadow: 0 0 10px #00ff00;
-            opacity: 0; animation: appear 1.5s ease-out forwards;
+            text-transform: uppercase; color: #fff; text-shadow: 0 0 15px #00ff00;
+            opacity: 0; animation: appear 1.2s ease-out forwards;
+            font-family: 'Courier New', monospace;
         }
-        .line.top { animation-delay: 1s; }
-        .line.bottom { animation-delay: 2.5s; font-size: 60px; color: #00ff00; }
+        .line.top { animation-delay: 0.8s; }
+        .line.bottom { animation-delay: 1.8s; font-size: 60px; color: #00ff00; }
 
         @keyframes appear {
             0% { opacity: 0; transform: scale(0.5); filter: blur(10px); }
@@ -46,33 +47,43 @@
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
         .avatar-box {
-            width: 120px; height: 120px; border-radius: 50%; border: 2px solid #fff;
-            margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #fff;
+            width: 130px; height: 130px; border-radius: 50%; border: 3px solid #fff;
+            margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .card {
-            width: 280px; padding: 15px; margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.1);
-            color: #fff; text-decoration: none; text-align: center;
-            border-radius: 15px; backdrop-filter: blur(10px); transition: 0.3s;
-        }
-        .card:hover { transform: scale(1.05); background: rgba(255, 255, 255, 0.2); }
+        h1 { font-size: 32px; margin-bottom: 30px; letter-spacing: 2px; font-weight: 800; }
 
-        /* LIKE TUGMASI */
+        /* IJTIMOIY TARMOQLAR */
+        .card {
+            width: 300px; padding: 15px; margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.1);
+            color: #fff; text-decoration: none; text-align: left;
+            border-radius: 12px; backdrop-filter: blur(10px); transition: 0.3s;
+            display: flex; align-items: center; font-weight: 600; font-size: 18px;
+        }
+        .card i { font-size: 24px; margin-right: 20px; width: 30px; text-align: center; }
+        
+        /* LOGOTIP RANGLARI */
+        .fa-instagram { color: #E1306C; }
+        .fa-telegram { color: #229ED9; }
+        .fa-youtube { color: #FF0000; }
+
+        .card:hover { transform: translateX(10px); background: rgba(255, 255, 255, 0.2); }
+
+        /* LIKE TUGMASI - CHAP TARA FDA */
         #like-container {
-            position: fixed; bottom: 30px; right: 30px;
+            position: fixed; bottom: 30px; left: 30px;
             display: flex; flex-direction: column; align-items: center; z-index: 100;
         }
         #like-btn {
-            font-size: 45px; cursor: pointer; color: #fff;
-            transition: transform 0.2s; -webkit-text-stroke: 1px #fff;
+            font-size: 50px; cursor: pointer; color: #fff;
+            transition: transform 0.2s;
         }
-        #like-btn:active { transform: scale(1.3); }
-        .liked { color: #ff0000 !important; -webkit-text-stroke: 0 !important; text-shadow: 0 0 20px #ff0000; }
-        #like-count { font-size: 18px; font-weight: bold; margin-top: 5px; color: #fff; }
+        .liked { color: #ff0000 !important; text-shadow: 0 0 20px #ff0000; }
+        #like-count { font-size: 20px; font-weight: bold; margin-top: 5px; }
 
-        #clock { position: fixed; top: 20px; right: 20px; font-size: 20px; }
+        #clock { position: fixed; top: 25px; right: 25px; font-size: 22px; font-family: monospace; font-weight: bold; }
     </style>
 </head>
 <body onmousedown="spawnSnowBurst(event)">
@@ -92,11 +103,17 @@
         <div class="avatar-box">
              <img src="https://i.pinimg.com/originals/8a/0b/4c/8a0b4ca2b06e93817117865f37bc449e.jpg" alt="Meliqoziyev">
         </div>
-        <h2 style="margin-bottom: 20px;">@uz_pain</h2>
+        <h1>meliqoziyev.uz</h1>
         
-        <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card">Instagram</a>
-        <a href="https://t.me/Pain_2007" target="_blank" class="card">Telegram</a>
-        <a href="https://www.youtube.com/@uz_pain" target="_blank" class="card">YouTube</a>
+        <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+        <a href="https://t.me/Pain_2007" target="_blank" class="card">
+            <i class="fab fa-telegram"></i> Telegram
+        </a>
+        <a href="https://www.youtube.com/@uz_pain" target="_blank" class="card">
+            <i class="fab fa-youtube"></i> YouTube
+        </a>
 
         <div id="like-container">
             <i class="fas fa-heart" id="like-btn" onclick="handleLike()"></i>
@@ -105,7 +122,7 @@
     </div>
 
     <script>
-        // --- MATRIX LOGIC ---
+        // MATRIX FON
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -121,7 +138,7 @@
         }
         let mInterval = setInterval(drawMatrix, 35);
 
-        // --- TRANSITION (9s) ---
+        // TRANSITION (7 SEKUND)
         setTimeout(() => {
             clearInterval(mInterval);
             document.getElementById('intro-screen').style.opacity = "0";
@@ -133,15 +150,15 @@
                 initSnow();
                 updateClock();
             }, 1000);
-        }, 9000);
+        }, 7000);
 
-        // --- SNOW LOGIC ---
+        // QOR EFFEKTI
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         let snowP = [];
         function initSnow() {
             sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
-            for(let i=0; i<100; i++) snowP.push(new Snowflake());
+            for(let i=0; i<120; i++) snowP.push(new Snowflake());
             animate();
         }
         class Snowflake {
@@ -149,6 +166,7 @@
             reset() {
                 this.x = Math.random()*sCanvas.width; this.y = Math.random()*-sCanvas.height;
                 this.size = Math.random()*3+1; this.speed = Math.random()*1+0.5; this.opacity = Math.random();
+                this.vx = 0;
             }
             update() { this.y += this.speed; if(this.y > sCanvas.height) this.reset(); }
             draw() { sCtx.fillStyle = `rgba(255,255,255,${this.opacity})`; sCtx.beginPath(); sCtx.arc(this.x,this.y,this.size,0,Math.PI*2); sCtx.fill(); }
@@ -157,9 +175,9 @@
             if(document.getElementById('main-site').style.display !== "flex") return;
             for(let i=0; i<15; i++) {
                 let p = new Snowflake(); p.x = e.clientX; p.y = e.clientY;
-                p.speed = Math.random()*4-2; p.vx = Math.random()*4-2;
+                p.speed = Math.random()*6-3; p.vx = Math.random()*6-3;
                 snowP.push(p);
-                setTimeout(() => snowP.splice(snowP.indexOf(p), 1), 800);
+                setTimeout(() => snowP.splice(snowP.indexOf(p), 1), 1000);
             }
         }
         function animate() {
@@ -168,18 +186,16 @@
             requestAnimationFrame(animate);
         }
 
-        // --- LIKE LOGIC (LOCAL STORAGE SAVING) ---
-        let count = localStorage.getItem('totalLikes') || Math.floor(Math.random() * 500) + 100;
+        // LIKE
+        let count = parseInt(localStorage.getItem('m_likes')) || 1250;
         document.getElementById('like-count').innerText = count;
-
         function handleLike() {
             const btn = document.getElementById('like-btn');
             if(!btn.classList.contains('liked')) {
                 btn.classList.add('liked');
                 count++;
                 document.getElementById('like-count').innerText = count;
-                localStorage.setItem('totalLikes', count);
-                // Bu yerda Firebase orqali bazaga yuborish mumkin
+                localStorage.setItem('m_likes', count);
             }
         }
 
