@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev.uz | Matrix & Snow</title>
+    <title>Meliqoziyev.uz | White & Green</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
-        /* INTRO: MATRIX + ASSALOMU ALAYKUM */
+        /* INTRO QISMI */
         #intro-screen {
             position: fixed;
             top: 0; left: 0;
@@ -21,15 +21,19 @@
             background: #000;
         }
         #matrix-intro-canvas { position: absolute; top: 0; left: 0; }
+        
+        /* SALOMLASHISH YOZUVI: OQ RANGDA */
         .welcome-text {
             position: relative;
-            font-size: 35px;
-            font-weight: bold;
-            color: #00ff00;
-            text-shadow: 0 0 20px #00ff00;
-            letter-spacing: 5px;
+            font-size: 38px;
+            font-weight: 900;
+            color: #ffffff; /* Oq rang */
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 10px #00ff00; /* Oq nur va yashil cheti */
+            letter-spacing: 6px;
             z-index: 10001;
             text-transform: uppercase;
+            text-align: center;
+            font-family: 'Courier New', monospace;
         }
 
         /* ASOSIY SAYT */
@@ -40,7 +44,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 1s ease;
+            transition: opacity 1.5s ease;
             position: relative;
             z-index: 10;
         }
@@ -57,7 +61,7 @@
         }
         .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 25px; color: #fff; }
+        h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 25px; }
 
         .card {
             width: 280px;
@@ -116,7 +120,7 @@
     </div>
 
     <script>
-        // --- MATRIX INTRO LOGIKASI ---
+        // --- MATRIX INTRO (YASHIL RANGDA) ---
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth;
@@ -130,7 +134,7 @@
         function drawMatrix() {
             mCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
             mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
-            mCtx.fillStyle = "#0F0";
+            mCtx.fillStyle = "#00ff00"; // Yashil 01 lar
             mCtx.font = fontSize + "px monospace";
             for (let i = 0; i < rainDrops.length; i++) {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
@@ -139,14 +143,14 @@
                 rainDrops[i]++;
             }
         }
-        let matrixInterval = setInterval(drawMatrix, 30);
+        let matrixInterval = setInterval(drawMatrix, 35);
 
-        // --- 3 SEKUNDDAN KEYIN SAYTGA KIRISH ---
+        // --- 6 SEKUNDDAN KEYIN O'TISH ---
         setTimeout(() => {
             clearInterval(matrixInterval);
             const intro = document.getElementById('intro-screen');
             const main = document.getElementById('main-site');
-            intro.style.transition = "opacity 1s";
+            intro.style.transition = "opacity 1.5s ease";
             intro.style.opacity = "0";
             setTimeout(() => {
                 intro.style.display = "none";
@@ -154,8 +158,8 @@
                 setTimeout(() => main.style.opacity = "1", 50);
                 initSnow();
                 startClock();
-            }, 1000);
-        }, 3000);
+            }, 1500);
+        }, 6000);
 
         // --- QOR EFFEKTI ---
         const sCanvas = document.getElementById('snow-canvas');
@@ -192,16 +196,15 @@
             }
         }
 
-        // BOSGANDA QOR SACHRASHI
         function createSnowBurst(e) {
             if(document.getElementById('main-site').style.display === "flex") {
                 for (let i = 0; i < 15; i++) {
                     let p = new Snowflake();
                     p.x = e.clientX; p.y = e.clientY;
-                    p.speed = Math.random() * 4 - 2;
-                    p.velX = Math.random() * 4 - 2;
+                    p.speed = Math.random() * 5 - 2.5;
+                    p.velX = Math.random() * 5 - 2.5;
                     snowParticles.push(p);
-                    setTimeout(() => snowParticles.splice(snowParticles.indexOf(p), 1), 1000);
+                    setTimeout(() => snowParticles.splice(snowParticles.indexOf(p), 1), 1200);
                 }
             }
         }
@@ -212,12 +215,11 @@
             requestAnimationFrame(animateSnow);
         }
 
-        // --- QO'SHIMCHA FUNKSIYALAR ---
         function startClock() {
-            const colors = ['#00ff00', '#00ffff', '#ff0000', '#ffff00', '#ff00ff', '#ffffff'];
+            const colors = ['#00ff00', '#00ffff', '#ff0000', '#ffff00', '#fff'];
             setInterval(() => {
-                const now = new Date();
                 const clock = document.getElementById('clock');
+                const now = new Date();
                 if (now.getSeconds() % 5 === 0) clock.style.color = colors[Math.floor(Math.random() * colors.length)];
                 clock.innerText = now.toLocaleTimeString();
             }, 1000);
