@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meliqoziyev.uz | System Overload</title>
+    <title>Meliqoziyev.uz | Custom Intro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #00ff00; font-family: 'Courier New', monospace; overflow: hidden; height: 100vh; }
 
-        /* 1. MATRIX INTRO VIDEO */
+        /* 1. SENING YUKLAGAN VIDEONG (INTRO) */
         #video-intro {
             position: fixed;
             top: 0; left: 0;
@@ -20,9 +20,13 @@
             justify-content: center;
             align-items: center;
         }
-        #intro-video-element { min-width: 100%; min-height: 100%; object-fit: cover; }
+        #intro-video-element { 
+            min-width: 100%; 
+            min-height: 100%; 
+            object-fit: cover; 
+        }
 
-        /* 2. MAIN SITE */
+        /* 2. ASOSIY SAYT KONTENTI */
         #main-site {
             display: none;
             opacity: 0;
@@ -37,7 +41,6 @@
 
         #matrix-canvas { position: fixed; top: 0; left: 0; z-index: 1; }
 
-        /* PROFIL */
         .avatar-box {
             width: 125px; height: 125px;
             border-radius: 50%;
@@ -47,11 +50,10 @@
             box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
             background: #000;
         }
-        .avatar-box img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8) sepia(1) hue-rotate(80deg); }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
         h1 { font-size: 28px; letter-spacing: 5px; margin-bottom: 25px; text-shadow: 0 0 10px #00ff00; }
 
-        /* KIBER TUGMALAR */
         .card {
             width: 290px;
             padding: 14px;
@@ -64,16 +66,12 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
             transition: 0.2s;
         }
         .card:hover { background: #00ff00; color: #000; box-shadow: 0 0 30px #00ff00; }
 
-        /* SOAT */
         #clock { position: fixed; top: 25px; right: 25px; font-size: 26px; font-weight: 900; z-index: 20; }
 
-        /* LIKE TUGMASI */
         #like-btn {
             position: fixed;
             bottom: 30px;
@@ -86,18 +84,15 @@
         }
         .liked { color: #ff0000 !important; -webkit-text-stroke: 0px !important; text-shadow: 0 0 20px #ff0000; }
 
-        /* SACHRAYDIGAN YOZUVLAR */
         .hacker-text {
             position: absolute;
             pointer-events: none;
             color: #00ff00;
             font-size: 14px;
             font-weight: bold;
-            text-shadow: 0 0 5px #00ff00;
             z-index: 9999;
             animation: move-up 1s linear forwards;
         }
-
         @keyframes move-up {
             to { transform: translateY(-100px) translateX(var(--randX)); opacity: 0; }
         }
@@ -107,7 +102,8 @@
 
     <div id="video-intro">
         <video id="intro-video-element" autoplay muted playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-matrix-style-green-digital-binary-code-41203-large.mp4" type="video/mp4">
+            <source src="1000119438.mp4" type="video/mp4">
+            Brauzeringiz videoni qo'llab-quvvatlamaydi.
         </video>
     </div>
 
@@ -130,10 +126,12 @@
     </div>
 
     <script>
-        // INTRO 5 SEKUND
+        // --- VIDEO TAYMERI ---
+        // Sening videong taxminan 6 sekund. 6 sekunddan keyin sayt ochiladi.
         setTimeout(() => {
             const intro = document.getElementById('video-intro');
             const main = document.getElementById('main-site');
+            intro.style.transition = "opacity 1s";
             intro.style.opacity = "0";
             setTimeout(() => {
                 intro.style.display = "none";
@@ -142,9 +140,8 @@
                 initMatrix();
                 startClock();
             }, 1000);
-        }, 5000);
+        }, 6000); // 6000ms = 6 sekund
 
-        // SOAT RANGI
         function startClock() {
             const colors = ['#0f0', '#0ff', '#f00', '#ff0', '#fff'];
             const clock = document.getElementById('clock');
@@ -155,7 +152,6 @@
             }, 1000);
         }
 
-        // MATRIX FON
         function initMatrix() {
             const canvas = document.getElementById('matrix-canvas');
             const ctx = canvas.getContext('2d');
@@ -181,12 +177,9 @@
             setInterval(draw, 33);
         }
 
-        // XAKERONA SACHRASH (BOSGANDA)
-        const codeWords = ["HACKED", "ERROR", "SYSTEM", "ACCESS", "010101", "PAIN", "ROOT", "SQL_INJECT"];
-
+        const codeWords = ["HACKED", "ERROR", "SYSTEM", "ACCESS", "010101", "PAIN", "ROOT"];
         function spawnHackerText(e) {
             if(document.getElementById('main-site').style.display !== "flex") return;
-            
             for(let i=0; i<5; i++) {
                 const span = document.createElement('span');
                 span.className = 'hacker-text';
@@ -194,7 +187,6 @@
                 span.style.left = e.clientX + 'px';
                 span.style.top = e.clientY + 'px';
                 span.style.setProperty('--randX', (Math.random() * 100 - 50) + 'px');
-                
                 document.body.appendChild(span);
                 setTimeout(() => span.remove(), 1000);
             }
@@ -207,7 +199,7 @@
 
         window.onresize = () => {
             const canvas = document.getElementById('matrix-canvas');
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            if(canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         };
     </script>
 </body>
