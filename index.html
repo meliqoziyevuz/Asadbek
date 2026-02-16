@@ -43,7 +43,6 @@
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
         .avatar-box { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
         .glitch { font-size: 38px; font-weight: 800; color: #fff; letter-spacing: 2px; position: relative; text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; animation: glitch 800ms infinite; }
-        @keyframes glitch { 0% { text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff, 0.025em 0.04em 0 #fffc00; } 50% { text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff, -0.05em -0.05em 0 #fffc00; } 100% { text-shadow: -0.025em 0 0 #00fffc, -0.025em -0.025em 0 #fc00ff, -0.025em -0.05em 0 #fffc00; } }
 
         /* CARDS & FORM */
         .card { width: 310px; padding: 16px; margin-bottom: 18px; background: rgba(0,0,0,0.6); color: #fff; text-decoration: none; border-radius: 12px; backdrop-filter: blur(10px); transition: 0.4s; display: flex; align-items: center; font-weight: 600; border: 1px solid transparent; }
@@ -53,8 +52,7 @@
 
         input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(0,255,0,0.05); border: 1px solid #0f0; border-radius: 8px; color: white; outline: none; font-family: inherit; }
         button#send-msg { width: 100%; padding: 12px; background: #0f0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px #0f0; transition: 0.3s; }
-        button#send-msg:active { transform: scale(0.95); }
-
+        
         #like-section { position: fixed; bottom: 30px; left: 30px; display: flex; flex-direction: column; align-items: center; z-index: 100; }
         #music-section { position: fixed; bottom: 30px; right: 30px; z-index: 100; }
         .icon-btn { font-size: 40px; color: #fff; }
@@ -113,10 +111,7 @@
     <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3"></audio>
 
     <script>
-        // Kursor va Matrix Intro (Eski holatda)
-        const cursor = document.getElementById('cursor-pointer');
-        window.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
-
+        // Matrix & Intro logic
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -143,6 +138,10 @@
             }, 1000);
         }, 7000);
 
+        // Kursor
+        const cursor = document.getElementById('cursor-pointer');
+        window.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+
         // Sahifa almashinuvi
         let currentPage = 1;
         function changePage(dir) {
@@ -153,15 +152,15 @@
             document.getElementById('nextBtn').style.display = (currentPage === 2) ? 'none' : 'block';
         }
 
-        // TELEGRAMGA YUBORISH (Shu yerga ma'lumotlarni yozing)
+        // TELEGRAMGA YUBORISH (Sizning botingiz ulangan)
         function sendToTelegram() {
-            const token = "7867041796:AAHndYFk6FInH3f_95e9zNq60W9mS03_A8s"; // Tokenni buni o'rniga qo'ying
-            const chat_id = "6064746416"; // Chat ID ni buni o'rniga qo'ying
+            const token = "7725172926:AAFGnwmN_4QJBi-2mZ4csK0WdYo0QA4bgCM"; 
+            const chat_id = "6064746416"; 
             const name = document.getElementById('userName').value;
             const msg = document.getElementById('userMsg').value;
             const status = document.getElementById('status');
 
-            if(!name || !msg) { alert("Iltimos, hamma joyni to'ldiring!"); return; }
+            if(!name || !msg) { alert("Iltimos, maydonlarni to'ldiring!"); return; }
 
             const text = `🚀 *Yangi xabar!*\n\n👤 *Kimdan:* ${name}\n💬 *Fikr:* ${msg}`;
             const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
@@ -172,12 +171,12 @@
                     status.style.display = "block";
                     document.getElementById('userName').value = "";
                     document.getElementById('userMsg').value = "";
-                    setTimeout(() => { status.style.display = "none"; }, 3000);
+                    setTimeout(() => status.style.display = "none", 3000);
                 }
-            }).catch(() => { alert("Xatolik yuz berdi!"); });
+            }).catch(() => alert("Xatolik! Botni /start qilganingizga ishonch hosil qiling."));
         }
 
-        // Boshqa barcha funksiyalar (Soat, Qor, Like) saqlandi
+        // Clock & Snow Effects
         function startClock() {
             const clk = document.getElementById('clock');
             const colors = ['#0f0', '#00f', '#f0f', '#ff0', '#0ff'];
