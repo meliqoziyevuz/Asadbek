@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>meliqoziyev.uz | Official</title>
+    <title>Asadbek | Official Site</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
@@ -44,8 +44,7 @@
 
         /* UI ELEMENTS */
         .nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; }
-        #nextBtn { right: 30px; }
-        #prevBtn { left: 30px; display: none; }
+        #nextBtn { right: 30px; } #prevBtn { left: 30px; display: none; }
         #clock { position: fixed; top: 25px; left: 50%; transform: translateX(-50%); font-size: 28px; font-family: 'Courier New', monospace; z-index: 100; color: #0f0; text-shadow: 0 0 15px #0f0; }
         #snow-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
         .avatar-box { width: 135px; height: 135px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; overflow: hidden; box-shadow: 0 0 20px #0f0; }
@@ -76,9 +75,9 @@
 
         <div class="page active" id="p1">
             <div class="avatar-box">
-                <img src="https://raw.githubusercontent.com/meliqoziyev/meliqoziyev.uz/main/1000047368.jpg" alt="Profil">
+                <img src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/1000047368.jpg" alt="Profil">
             </div>
-            <h1 class="glitch">meliqoziyev.uz</h1>
+            <h1 class="glitch">Asadbek</h1>
             <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card"><i class="fab fa-instagram" style="margin-right:15px; color:#E1306C;"></i> Instagram</a>
             <a href="https://t.me/Pain_2007" target="_blank" class="card"><i class="fab fa-telegram" style="margin-right:15px; color:#229ED9;"></i> Telegram</a>
         </div>
@@ -88,9 +87,9 @@
             <div class="media-container">
                 
                 <div class="media-item">
-                    <h3><i class="fas fa-video"></i> Yangi Video</h3>
+                    <h3><i class="fas fa-video"></i> Video Lavha</h3>
                     <video controls>
-                        <source src="https://raw.githubusercontent.com/meliqoziyev/meliqoziyev.uz/main/VID_20260217_042543_562.mp4" type="video/mp4">
+                        <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                     </video>
                 </div>
 
@@ -115,7 +114,7 @@
     </div>
 
     <script>
-        // Matrix Intro
+        // Matrix & Snow Burst logikasi
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -141,7 +140,6 @@
             }, 1000);
         }, 7000);
 
-        // Snow Burst
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         let snowP = [];
@@ -161,7 +159,6 @@
         }
         function animate() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); snowP.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
 
-        // Navigation
         let currentPage = 1;
         function changePage(dir) {
             document.getElementById('p'+currentPage).classList.remove('active');
