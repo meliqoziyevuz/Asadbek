@@ -10,11 +10,7 @@
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
 
         /* MATRIX INTRO */
-        #intro-screen { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; z-index: 10000; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; 
-        }
+        #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         #matrix-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
         .intro-content { position: relative; z-index: 2; text-align: center; }
         .t1, .t2 { font-size: 35px; font-weight: bold; color: #0f0; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px #0f0; opacity: 0; }
@@ -32,55 +28,28 @@
         .card { width: 280px; padding: 14px; margin: 8px 0; background: rgba(0, 255, 0, 0.1); border: 2px solid #0f0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s; }
         .card i { margin-right: 15px; font-size: 22px; color: #0f0; }
         .card.yt i { color: #ff0000; }
-        .like-section { margin-top: 15px; cursor: pointer; display: flex; align-items: center; background: rgba(255,0,0,0.1); padding: 10px 20px; border-radius: 30px; border: 1px solid #ff0000; transition: 0.3s; }
+        .like-section { margin-top: 15px; cursor: pointer; display: flex; align-items: center; background: rgba(255,0,0,0.1); padding: 10px 20px; border-radius: 30px; border: 1px solid #ff0000; }
         .like-count { font-weight: bold; color: #fff; margin-left: 10px; font-size: 18px; }
 
-        /* 2-PAGE: GALEREYA (ZAMONAVIY) */
-        .gal-title { color: #0f0; margin-bottom: 15px; font-size: 24px; text-transform: uppercase; letter-spacing: 4px; text-shadow: 0 0 10px #0f0; }
-        
-        /* Antiqa Musiqa Pleyeri */
-        .music-cyber {
-            width: 300px;
-            padding: 15px;
-            background: rgba(0, 255, 0, 0.03);
-            border: 2px solid #0f0;
-            border-radius: 50px 5px 50px 5px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-            position: relative;
-        }
-        .music-cyber::after { content: 'AUDIO SYSTEM'; position: absolute; bottom: -8px; right: 20px; background: #000; color: #0f0; font-size: 9px; padding: 0 5px; border: 1px solid #0f0; }
+        /* 2-PAGE: GALEREYA */
+        .music-cyber { width: 300px; padding: 15px; background: rgba(0, 255, 0, 0.05); border: 2px solid #0f0; border-radius: 50px 5px; margin-bottom: 20px; box-shadow: 0 0 15px #0f03; }
         audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); }
-
-        /* Katta Video Ramkasi */
-        .video-cyber {
-            width: 90%; /* Video maksimal darajada keng */
-            max-width: 360px;
-            background: #000;
-            border: 3px solid #0f0;
-            border-radius: 15px;
-            padding: 5px;
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
+        .video-cyber { width: 95%; max-width: 360px; background: #000; border: 3px solid #0f0; border-radius: 15px; padding: 5px; box-shadow: 0 0 25px #0f06; }
         video { width: 100%; border-radius: 10px; display: block; }
 
         /* NAVIGATION */
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; text-shadow: 0 0 15px #0f0; transition: 0.3s; opacity: 0.7; }
-        .nav-btn:hover { opacity: 1; scale: 1.1; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; text-shadow: 0 0 15px #0f0; opacity: 0.7; }
         #nextBtn { right: 5px; } #prevBtn { left: 5px; display: none; }
 
-        /* ELEMENTS */
+        /* OTHERS */
         #clock { position: fixed; top: 15px; right: 20px; color: #0f0; font-family: monospace; font-size: 16px; z-index: 100; }
         #site-name { position: fixed; top: 15px; left: 20px; color: #0f0; font-size: 14px; font-weight: bold; z-index: 100; }
         #bg-snow { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 50; }
-        .click-snow { position: absolute; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999; animation: p 0.8s ease-out forwards; }
+        .click-snow { position: absolute; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999; animation: p 0.8s forwards; }
         @keyframes p { to { transform: translate(var(--x), var(--y)); opacity: 0; } }
 
-        /* FORM */
         input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #0f0; color: #fff; border-radius: 8px; outline: none; }
-        button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; color: #000; }
+        button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; }
     </style>
 </head>
 <body onclick="createSnowParticles(event)">
@@ -109,25 +78,22 @@
             <a href="https://t.me/Pain_2007" target="_blank" class="card"><i class="fab fa-telegram"></i> Telegram</a>
             <a href="https://youtube.com/@meliqoziyev" target="_blank" class="card yt"><i class="fab fa-youtube"></i> YouTube</a>
             <div class="like-section" onclick="addLike(event)">
-                <i class="fas fa-heart"></i>
-                <span class="like-count" id="count">145</span>
+                <i class="fas fa-heart"></i> <span class="like-count" id="count">145</span>
             </div>
         </div>
 
         <div class="page" id="p2">
-            <h2 class="gal-title">Galereya</h2>
-            
+            <h2 style="color:#0f0; margin-bottom:15px; letter-spacing:3px;">GALEREYA</h2>
             <div class="music-cyber">
-                <audio controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
+                <audio id="myAudio" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
             </div>
-
             <div class="video-cyber">
-                <video controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4"></video>
+                <video id="myVideo" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4"></video>
             </div>
         </div>
 
         <div class="page" id="p3">
-            <div class="music-cyber" style="width:310px; border-radius: 15px;">
+            <div class="music-cyber" style="width:310px; border-radius:15px;">
                 <h3 style="color:#0f0; margin-bottom:15px;">Fikr bildirish</h3>
                 <input type="text" id="uName" placeholder="Ismingiz">
                 <textarea id="uMsg" rows="4" placeholder="Xabaringiz..."></textarea>
@@ -137,7 +103,13 @@
     </div>
 
     <script>
-        // MATRIX
+        const audio = document.getElementById('myAudio');
+        const video = document.getElementById('myVideo');
+
+        // IKKALASI BIR VAQTDA ISHLAMASLIGI UCHUN:
+        audio.onplay = () => { video.pause(); };
+        video.onplay = () => { audio.pause(); };
+
         const mCanvas = document.getElementById('matrix-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -153,7 +125,6 @@
         }
         let mInt = setInterval(drawMatrix, 50);
 
-        // TRANSITION TO MAIN
         setTimeout(() => {
             clearInterval(mInt);
             document.getElementById('intro-screen').style.display = 'none';
@@ -163,7 +134,6 @@
             initSnow();
         }, 7000);
 
-        // NAVIGATION
         let curr = 1;
         function movePage(s) {
             document.getElementById('p'+curr).style.display = 'none';
@@ -171,9 +141,10 @@
             document.getElementById('p'+curr).style.display = 'flex';
             document.getElementById('prevBtn').style.display = (curr==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (curr==3)?'none':'block';
+            // Sahifa almashganda hammani o'chirish
+            audio.pause(); video.pause();
         }
 
-        // LIKE
         let liked = false;
         function addLike(e) {
             if(!liked) {
@@ -184,7 +155,6 @@
             }
         }
 
-        // PARTICLES
         function createSnowParticles(e) {
             for(let i=0; i<10; i++) {
                 const p = document.createElement('div');
@@ -198,7 +168,6 @@
             }
         }
 
-        // SNOW & CLOCK
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
         function initSnow() {
             const c = document.getElementById('bg-snow'); const ctx = c.getContext('2d');
@@ -218,7 +187,7 @@
             const token = "7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM"; 
             const cid = "6804374367";
             fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent("👤 "+n.value+"\n💬 "+m.value)}`)
-            .then(() => { alert("Xabar yuborildi!"); n.value=""; m.value=""; });
+            .then(() => { alert("Yuborildi!"); n.value=""; m.value=""; });
         }
     </script>
 </body>
