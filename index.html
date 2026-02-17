@@ -9,7 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
-        /* 7 SEKUNDLIK MATRIX INTRO */
+        /* MATRIX INTRO (7 SEKUND) */
         #intro-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #000; z-index: 10000; display: flex; flex-direction: column; 
@@ -21,47 +21,31 @@
             font-size: 35px; font-weight: bold; color: #0f0; 
             text-transform: uppercase; letter-spacing: 5px; 
             text-shadow: 0 0 20px #0f0; margin: 10px;
-            animation: fadeIn 2s ease-in;
         }
 
-        /* ASOSIY SAYT (BOSHLANG'ICHDA YASHIRILGAN) */
+        /* ASOSIY SAYT */
         #main-content { display: none; opacity: 0; transition: 1.5s; height: 100vh; width: 100%; position: relative; z-index: 10; }
-        
-        .page { 
-            position: absolute; width: 100%; height: 100%; 
-            display: none; flex-direction: column; align-items: center; 
-            justify-content: center; padding: 20px; text-align: center;
-        }
+        .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
         /* DIZAYN ELEMENTLARI */
         .avatar { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 20px; box-shadow: 0 0 20px #0f0; }
-        .card { 
-            width: 320px; padding: 18px; margin: 12px 0; background: rgba(0, 255, 0, 0.1); 
-            border: 2px solid #0f0; border-radius: 12px; text-decoration: none; 
-            color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s;
-        }
+        .card { width: 320px; padding: 18px; margin: 12px 0; background: rgba(0, 255, 0, 0.1); border: 2px solid #0f0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s; }
         .card:hover { transform: scale(1.05); background: rgba(0, 255, 0, 0.2); }
         .card i { margin-right: 20px; font-size: 24px; color: #0f0; }
 
-        /* MEDIA BOX */
         .media-box { width: 340px; background: rgba(255,255,255,0.05); border: 1px solid #0f0; border-radius: 15px; padding: 15px; margin: 10px 0; }
         video { width: 100%; border-radius: 10px; border: 1px solid #0f0; }
         
-        /* NAVIGATSIYA */
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; opacity: 0.6; transition: 0.3s; }
-        .nav-btn:hover { opacity: 1; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; opacity: 0.6; }
         #nextBtn { right: 25px; } #prevBtn { left: 25px; display: none; }
 
-        /* FORMA */
         input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #0f0; color: #fff; border-radius: 8px; outline: none; }
         button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; color: #000; }
 
         #clock { position: fixed; top: 15px; right: 20px; color: #0f0; font-family: monospace; font-size: 18px; z-index: 100; }
         #site-name { position: fixed; top: 15px; left: 20px; color: #0f0; font-size: 16px; font-weight: bold; z-index: 100; }
         #bg-snow { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 5; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -116,7 +100,7 @@
     </div>
 
     <script>
-        // MATRIX EFFEKTI
+        // MATRIX INTRO
         const mCanvas = document.getElementById('matrix-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -126,29 +110,24 @@
             mCtx.fillStyle = 'rgba(0, 0, 0, 0.05)'; mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
             mCtx.fillStyle = '#0f0'; mCtx.font = '20px monospace';
             for (let i = 0; drops.length > i; i++) {
-                const text = Math.floor(Math.random() * 2);
-                mCtx.fillText(text, i * 20, drops[i] * 20);
+                mCtx.fillText(Math.floor(Math.random() * 2), i * 20, drops[i] * 20);
                 if (drops[i] * 20 > mCanvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
         let matrixInterval = setInterval(drawMatrix, 50);
 
-        // 7 SEKUNDDAN KEYIN SAYTNI OCHISH
         setTimeout(() => {
             clearInterval(matrixInterval);
-            const intro = document.getElementById('intro-screen');
-            const main = document.getElementById('main-content');
-            intro.style.opacity = '0';
+            document.getElementById('intro-screen').style.opacity = '0';
             setTimeout(() => {
-                intro.style.display = 'none';
-                main.style.display = 'block';
-                setTimeout(() => main.style.opacity = '1', 50);
-                initSnow(); // Sayt ochilgach qorni boshlash
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                setTimeout(() => document.getElementById('main-content').style.opacity = '1', 50);
+                initSnow();
             }, 1500);
         }, 7000); 
 
-        // SAHIFALARNI BOSHQARISH
         let current = 1;
         function movePage(step) {
             document.getElementById('p' + current).classList.remove('active');
@@ -158,23 +137,26 @@
             document.getElementById('nextBtn').style.display = (current === 3) ? 'none' : 'block';
         }
 
-        // TELEGRAMGA YUBORISH
+        // TELEGRAMGA YUBORISH (YANGI TOKEN VA ID)
         function sendTele() {
             const n = document.getElementById('uName').value;
             const m = document.getElementById('uMsg').value;
             if(!n || !m) { alert("Iltimos, ism va xabarni yozing!"); return; }
 
-            const token = "7547926121:AAEf2M9l56Xh-D0eQyI8wB9sK7u-vL_qX4M";
-            const cid = "6804374367"; // Skrinshotingizdagi ID
-            const text = `🚀 Yangi xabar!\n👤 Ism: ${n}\n💬 Xabar: ${m}`;
+            // SKRINSHOTINGIZDAGI YANGI MA'LUMOTLAR
+            const token = "7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM"; 
+            const cid = "6804374367"; 
+            const text = `🚀 Saytdan xabar:\n👤 Ism: ${n}\n💬 Xabar: ${m}`;
 
             fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(text)}`)
-            .then(res => { if(res.ok) alert("Xabaringiz yuborildi! ✅"); else alert("Xato! Botga /start bosing."); });
+            .then(res => { 
+                if(res.ok) alert("Xabar @Matrixff_bot orqali yuborildi! ✅"); 
+                else alert("Xato! @Matrixff_bot botiga kirib /start bosing."); 
+            })
+            .catch(() => alert("Ulanishda xato!"));
         }
 
-        // SOAT VA QOR EFFEKTI
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-
         function initSnow() {
             const sCanvas = document.getElementById('bg-snow');
             const sCtx = sCanvas.getContext('2d');
