@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
 
         /* MATRIX INTRO */
         #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         #matrix-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
         .intro-content { position: relative; z-index: 2; text-align: center; }
         .t1, .t2 { font-size: 35px; font-weight: bold; color: #0f0; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px #0f0; opacity: 0; }
-        .t1 { animation: fadeIn 2s forwards 1s; margin-bottom: 20px; }
+        .t1 { animation: fadeIn 2s forwards 1s; }
         .t2 { animation: fadeIn 2s forwards 3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -23,62 +23,45 @@
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
-        /* 1-PAGE: PROFILE */
-        .avatar { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
-        
-        /* TUGMALAR RANGI */
-        .card { width: 280px; padding: 14px; margin: 8px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; transition: 0.3s; border: 2px solid transparent; }
-        .card i { margin-right: 15px; font-size: 22px; color: #fff; }
-        
-        .insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); border-color: #d6249f; }
-        .tele { background: #0088cc; border-color: #0088cc; }
-        .yt { background: #ff0000; border-color: #ff0000; }
+        /* ANTIQA SHAKLLAR (2-PAGE) */
+        .shape-box { position: relative; width: 180px; height: 180px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
+        .cyber-square { position: absolute; width: 100%; height: 100%; border: 2px solid #0f0; animation: rotate 4s linear infinite; box-shadow: 0 0 15px #0f0; }
+        .cyber-triangle { position: absolute; width: 80%; height: 80%; border-left: 2px solid #0f0; border-bottom: 2px solid #0f0; transform: rotate(45deg); animation: rotate 3s linear infinite reverse; opacity: 0.6; }
+        #clock-2 { font-size: 24px; font-weight: bold; color: #0f0; text-shadow: 0 0 10px #0f0; z-index: 5; font-family: monospace; }
 
-        /* LIKE CHAP BURCHAKDA */
-        .like-section { 
-            position: absolute; bottom: 30px; left: 20px; 
-            cursor: pointer; display: flex; align-items: center; 
-            background: rgba(255,255,255,0.1); padding: 8px 15px; 
-            border-radius: 20px; border: 1px solid #ff0000; transition: 0.3s; 
+        /* TITRASH EFFEKTI */
+        .glitch-active { animation: shake 0.15s infinite; }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            20% { transform: translate(-2px, -1px) rotate(-0.5deg); color: #ff0000; }
+            40% { transform: translate(-1px, 2px) rotate(0.5deg); }
+            60% { transform: translate(2px, 1px) rotate(-0.5deg); color: #0000ff; }
+            100% { transform: translate(1px, -2px) rotate(0deg); color: #0f0; }
         }
-        .like-section i { font-size: 22px; color: #ff0000; }
-        .like-count { font-weight: bold; color: #fff; margin-left: 8px; font-size: 16px; }
 
-        /* 2-PAGE: GALEREYA */
-        .music-cyber { width: 300px; padding: 15px; background: rgba(0, 255, 0, 0.05); border: 2px solid #0f0; border-radius: 50px 5px; margin-bottom: 20px; }
-        audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); }
-        .video-cyber { width: 95%; max-width: 360px; background: #000; border: 3px solid #0f0; border-radius: 15px; padding: 5px; box-shadow: 0 0 25px #0f06; }
-        video { width: 100%; border-radius: 10px; display: block; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* NAVIGATION */
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; text-shadow: 0 0 15px #0f0; opacity: 0.7; }
+        /* PROFILE (1-PAGE) */
+        .avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 20px #0f0; }
+        .card { width: 280px; padding: 14px; margin: 6px 0; border-radius: 12px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+        .card i { margin-right: 15px; font-size: 24px; }
+
+        /* PLAYER & FORM */
+        .cyber-panel { width: 320px; padding: 15px; background: rgba(0, 255, 0, 0.05); border: 1px solid #0f0; border-radius: 10px; margin-bottom: 15px; }
+        audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg); }
+        video { width: 100%; border-radius: 8px; border: 1px solid #0f0; }
+
+        /* NAV BUTTONS */
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 5000; opacity: 0.6; }
         #nextBtn { right: 5px; } #prevBtn { left: 5px; display: none; }
-
-        /* OTHERS */
-        #clock { position: fixed; top: 15px; right: 20px; color: #0f0; font-family: monospace; font-size: 16px; z-index: 100; }
-        #site-name { position: fixed; top: 15px; left: 20px; color: #0f0; font-size: 14px; font-weight: bold; z-index: 100; }
-        #bg-snow { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 50; }
-        .click-snow { position: absolute; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999; animation: p 0.8s forwards; }
-        @keyframes p { to { transform: translate(var(--x), var(--y)); opacity: 0; } }
-
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #0f0; color: #fff; border-radius: 8px; outline: none; }
-        button { width: 100%; padding: 12px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; }
     </style>
 </head>
 <body onclick="createSnowParticles(event)">
 
-    <div id="site-name">meliqoziyev.uz</div>
-    <div id="clock">00:00:00</div>
-
     <div id="intro-screen">
         <canvas id="matrix-canvas"></canvas>
-        <div class="intro-content">
-            <div class="t1">Assalomu</div>
-            <div class="t2">Alaykum</div>
-        </div>
+        <div class="intro-content"><div class="t1">Assalomu</div><div class="t2">Alaykum</div></div>
     </div>
-
-    <canvas id="bg-snow"></canvas>
 
     <div id="main-content">
         <i class="fas fa-chevron-left nav-btn" id="prevBtn" onclick="movePage(-1)"></i>
@@ -87,32 +70,31 @@
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
             <h2 style="color:#0f0; margin-bottom: 15px;">Asadbek</h2>
-            
-            <a href="https://instagram.com/ezz_mafiya" target="_blank" class="card insta"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" target="_blank" class="card tele"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="https://youtube.com/@meliqoziyev" target="_blank" class="card yt"><i class="fab fa-youtube"></i> YouTube</a>
-            
-            <div class="like-section" onclick="addLike(event)">
-                <i class="fas fa-heart"></i> <span class="like-count" id="count">145</span>
-            </div>
+            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc"></i> Telegram</a>
+            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000"></i> YouTube</a>
         </div>
 
         <div class="page" id="p2">
-            <h2 style="color:#0f0; margin-bottom:15px; letter-spacing:3px;">GALEREYA</h2>
-            <div class="music-cyber">
-                <audio id="myAudio" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
+            <div class="shape-box" id="glitch-target">
+                <div class="cyber-square"></div>
+                <div class="cyber-triangle"></div>
+                <div id="clock-2">00:00:00</div>
             </div>
-            <div class="video-cyber">
+
+            <div class="cyber-panel" id="player-panel">
+                <audio id="myAudio" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mpeg"></audio>
                 <video id="myVideo" controls><source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4"></video>
             </div>
+            <p id="status" style="color:#0f0; font-size: 10px; letter-spacing: 2px;">SYSTEM READY</p>
         </div>
 
         <div class="page" id="p3">
-            <div class="music-cyber" style="width:310px; border-radius:15px;">
-                <h3 style="color:#0f0; margin-bottom:15px;">Fikr bildirish</h3>
-                <input type="text" id="uName" placeholder="Ismingiz">
-                <textarea id="uMsg" rows="4" placeholder="Xabaringiz..."></textarea>
-                <button onclick="sendTele()">Yuborish</button>
+            <div class="cyber-panel" style="width:310px;">
+                <h3 style="color:#0f0; margin-bottom:15px;">MESSAGE</h3>
+                <input type="text" id="uName" placeholder="Name" style="width:100%; background:none; border:1px solid #0f0; color:#fff; padding:10px; margin-bottom:10px;">
+                <textarea id="uMsg" placeholder="Text..." style="width:100%; background:none; border:1px solid #0f0; color:#fff; padding:10px; margin-bottom:10px;"></textarea>
+                <button onclick="sendTele()" style="width:100%; padding:10px; background:#0f0; border:none; font-weight:bold; cursor:pointer;">SEND</button>
             </div>
         </div>
     </div>
@@ -120,10 +102,25 @@
     <script>
         const audio = document.getElementById('myAudio');
         const video = document.getElementById('myVideo');
+        const glitchBox = document.getElementById('glitch-target');
+        const playerPanel = document.getElementById('player-panel');
+        const status = document.getElementById('status');
 
-        audio.onplay = () => { video.pause(); };
-        video.onplay = () => { audio.pause(); };
+        audio.onplay = () => {
+            glitchBox.classList.add('glitch-active');
+            playerPanel.classList.add('glitch-active');
+            status.innerText = "WARNING: GLITCH DETECTED";
+            status.style.color = "#f00";
+            video.pause();
+        };
+        audio.onpause = () => {
+            glitchBox.classList.remove('glitch-active');
+            playerPanel.classList.remove('glitch-active');
+            status.innerText = "SYSTEM STABLE";
+            status.style.color = "#0f0";
+        };
 
+        // Matrix
         const mCanvas = document.getElementById('matrix-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -145,8 +142,12 @@
             const main = document.getElementById('main-content');
             main.style.display = 'block';
             setTimeout(() => { main.style.opacity = '1'; }, 50);
-            initSnow();
         }, 7000);
+
+        function updateClock() {
+            document.getElementById('clock-2').innerText = new Date().toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
 
         let curr = 1;
         function movePage(s) {
@@ -158,49 +159,22 @@
             audio.pause(); video.pause();
         }
 
-        let liked = false;
-        function addLike(e) {
-            if(!liked) {
-                const c = document.getElementById('count');
-                c.innerText = parseInt(c.innerText) + 1;
-                liked = true;
-                e.currentTarget.style.boxShadow = "0 0 20px #ff0000";
-            }
-        }
-
         function createSnowParticles(e) {
-            for(let i=0; i<10; i++) {
-                const p = document.createElement('div');
-                p.className = 'click-snow';
-                p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
-                p.style.width = p.style.height = '4px';
-                p.style.setProperty('--x', (Math.random()-0.5)*130 + 'px');
-                p.style.setProperty('--y', (Math.random()-0.5)*130 + 'px');
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 800);
-            }
-        }
-
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-        function initSnow() {
-            const c = document.getElementById('bg-snow'); const ctx = c.getContext('2d');
-            c.width = window.innerWidth; c.height = window.innerHeight;
-            let f = []; for(let i=0; i<60; i++) f.push({x:Math.random()*c.width, y:Math.random()*c.height, r:Math.random()*2+1, d:Math.random()+0.3});
-            function draw() {
-                ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff"; ctx.beginPath();
-                f.forEach(p => { ctx.moveTo(p.x, p.y); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); p.y+=p.d; if(p.y>c.height) p.y=-5; });
-                ctx.fill(); requestAnimationFrame(draw);
-            }
-            draw();
+            const p = document.createElement('div');
+            p.style.position = 'absolute'; p.style.background = '#0f0';
+            p.style.width = p.style.height = '4px';
+            p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
+            p.style.pointerEvents = 'none';
+            document.body.appendChild(p);
+            p.animate([{opacity:1}, {transform:'translate(0, 50px)', opacity:0}], {duration:800});
+            setTimeout(() => p.remove(), 800);
         }
 
         function sendTele() {
-            const n = document.getElementById('uName'); const m = document.getElementById('uMsg');
-            if(!n.value || !m.value) return;
-            const token = "7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM"; 
-            const cid = "6804374367";
-            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${cid}&text=${encodeURIComponent("👤 "+n.value+"\n💬 "+m.value)}`)
-            .then(() => { alert("Yuborildi!"); n.value=""; m.value=""; });
+            const n = document.getElementById('uName').value;
+            const m = document.getElementById('uMsg').value;
+            fetch(`https://api.telegram.org/bot7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM/sendMessage?chat_id=6804374367&text=User: ${n}%0AMessage: ${m}`)
+            .then(() => alert("SENT!"));
         }
     </script>
 </body>
