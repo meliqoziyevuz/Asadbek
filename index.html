@@ -23,7 +23,7 @@
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; text-align: center; }
         .active { display: flex; }
 
-        /* 2-PAGE: AUTO-NEXT VIDEO PLAYER */
+        /* 2-PAGE: RANDOM VIDEO PLAYER */
         .virtual-clock-header { color: #0f0; font-size: 18px; font-weight: bold; letter-spacing: 3px; margin-bottom: 5px; }
         #big-time { font-size: 20px; color: #0f0; font-family: monospace; margin-bottom: 10px; }
 
@@ -31,11 +31,15 @@
         .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 10px; background: #000; color: #0f0; font-size: 9px; padding: 0 5px; letter-spacing: 2px; border: 1px solid #0f0; }
 
         #video-player { width: 100%; border: 1px solid rgba(0,255,0,0.4); border-radius: 5px; background: #000; }
-        .playlist-info { color: #0f0; font-size: 10px; margin-top: 10px; font-family: monospace; }
+        
+        /* RANDOM BUTTON */
+        .random-btn { width: 100%; padding: 10px; background: transparent; border: 1px solid #0f0; color: #0f0; font-weight: bold; cursor: pointer; border-radius: 5px; margin-top: 10px; transition: 0.3s; font-family: monospace; letter-spacing: 1px; }
+        .random-btn:hover { background: rgba(0, 255, 0, 0.2); box-shadow: 0 0 15px #0f0; }
+        .random-btn:active { transform: scale(0.95); }
 
         audio { width: 100%; height: 35px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); }
 
-        /* CONTACT BOX (3-PAGE) */
+        /* CONTACT BOX */
         .contact-box { width: 310px; padding: 25px; background: rgba(0,0,0,0.8); border-radius: 20px; border: 1.5px solid #0f0; }
         input, textarea { width: 100%; padding: 14px; margin: 10px 0; background: #000; border: 1.5px solid #0f0; color: #fff; border-radius: 12px; outline: none; }
         button#send-btn { width: 100%; padding: 14px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 12px; color: #000; }
@@ -76,13 +80,12 @@
                 </audio>
             </div>
 
-            <div class="cyber-panel" data-label="CYBER_VIDEO_PLAYER" id="v-box">
+            <div class="cyber-panel" data-label="RANDOM_VIDEO_FEED" id="v-box">
                 <video id="video-player" controls poster="https://img.freepik.com/free-photo/vivid-blurred-colorful-background_58702-2655.jpg">
                     <source id="video-source" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                 </video>
-                <div class="playlist-info" id="play-info">Hozirda: Video 1 / 2</div>
+                <button class="random-btn" onclick="playRandomVideo()"><i class="fas fa-random"></i> RANDOM VIDEO</button>
             </div>
-            <p style="color:#0f0; font-size:9px; opacity:0.5;">Tugagach keyingisi avtomatik qo'yiladi...</p>
         </div>
 
         <div class="page" id="p3">
@@ -99,27 +102,29 @@
         const audio = document.getElementById('myAudio');
         const video = document.getElementById('video-player');
         const vSource = document.getElementById('video-source');
-        const playInfo = document.getElementById('play-info');
         const aBox = document.getElementById('a-box');
         const vBox = document.getElementById('v-box');
 
-        // VIDEO PLAYLIST
+        // VIDEO LIST
         const playlist = [
             "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4",
             "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_211420_755.mp4"
         ];
-        let currentVideoIndex = 0;
 
-        // Tugagach keyingisiga o'tish funksiyasi
-        video.onended = function() {
-            currentVideoIndex++;
-            if (currentVideoIndex >= playlist.length) {
-                currentVideoIndex = 0; // Tugasa boshiga qaytadi
-            }
-            vSource.src = playlist[currentVideoIndex];
+        // RANDOM VIDEO FUNKSIYASI
+        function playRandomVideo() {
+            let randomIndex = Math.floor(Math.random() * playlist.length);
+            
+            // Hozirgi video yana chiqib qolmasligi uchun tekshirish (ixtiyoriy)
+            vSource.src = playlist[randomIndex];
             video.load();
             video.play();
-            playInfo.innerText = `Hozirda: Video ${currentVideoIndex + 1} / ${playlist.length}`;
+            audio.pause();
+        }
+
+        // Avtomatik o'tishni to'xtatish (Faqat tugma orqali)
+        video.onended = function() {
+            console.log("Video tugadi. Yangisini tanlash uchun RANDOM tugmasini bosing.");
         };
 
         // Glitch effektlari
