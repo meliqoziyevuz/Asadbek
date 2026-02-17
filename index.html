@@ -25,12 +25,11 @@
         .card { width: 320px; padding: 18px; margin-bottom: 15px; background: rgba(255,255,255,0.05); border: 2px solid #0f0; border-radius: 15px; display: flex; align-items: center; text-decoration: none; color: #fff; font-size: 18px; font-weight: bold; transition: 0.3s; }
         .card i { font-size: 24px; margin-right: 20px; }
 
-        /* MEDIA */
+        /* MEDIA QISMI */
         .media-container { display: flex; flex-direction: column; height: 100vh; width: 100%; max-width: 380px; position: relative; }
         .media-item { width: 100%; padding: 15px; border: 2px solid #0f0; border-radius: 15px; background: rgba(0,255,0,0.05); position: absolute; left: 50%; transform: translateX(-50%); }
         .audio-box { bottom: 62%; text-align: center; }
         .video-box { top: 58%; }
-        video { width: 100%; border-radius: 10px; outline: none; }
 
         /* MUSIQA PROGRESS BAR */
         .track-info { color: #0f0; font-size: 14px; font-family: monospace; margin-bottom: 8px; }
@@ -49,7 +48,7 @@
         .feedback-box button { width: 100%; padding: 12px; background: #0f0; border: none; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer !important; }
 
         #like-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; cursor: pointer !important; }
-        .liked #like-btn { color: #f00; }
+        #like-btn { font-size: 35px; color: #444; }
 
         canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1; }
         @keyframes fd { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
@@ -91,11 +90,11 @@
                     <div class="controls">
                         <i class="fas fa-step-backward" onclick="audio.currentTime=0"></i>
                         <i class="fas fa-play play-btn" id="play-icon" onclick="togglePlay()"></i>
-                        <i class="fas fa-step-forward" onclick="alert('Oxiri')"></i>
+                        <i class="fas fa-step-forward" onclick="alert('Ro\'yxat tugadi')"></i>
                     </div>
                 </div>
                 <div class="media-item video-box">
-                    <video id="myVideo" controls onplay="audio.pause(); playIcon.className='fas fa-play play-btn';">
+                    <video id="myVideo" controls style="width:100%; border-radius:10px;" onplay="audio.pause(); playIcon.className='fas fa-play play-btn';">
                         <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -112,7 +111,7 @@
         </div>
 
         <div id="like-container" onclick="toggleLike()">
-            <i class="fa-solid fa-heart" id="like-btn" style="font-size:35px; color:#444;"></i>
+            <i class="fa-solid fa-heart" id="like-btn"></i>
             <span id="like-count" style="color:#0f0; font-weight:bold;">129</span>
         </div>
     </div>
@@ -129,23 +128,34 @@
         audio.ontimeupdate = () => { seekBar.max = audio.duration; seekBar.value = audio.currentTime; };
         seekBar.oninput = () => { audio.currentTime = seekBar.value; };
 
+        // TO'G'RILANGAN TELEGRAM FUNKSIYASI
         function sendToTelegram() {
             const name = document.getElementById('userName').value;
             const msg = document.getElementById('userMsg').value;
-            if (!name || !msg) { alert("To'ldiring!"); return; }
+            if (!name || !msg) { alert("Ism va xabarni yozing!"); return; }
             
             const btn = document.getElementById('sendBtn');
             btn.innerText = "Yuborilmoqda...";
             
             const token = "7547926121:AAEf2M9l56Xh-D0eQyI8wB9sK7u-vL_qX4M";
-            const chat_id = "6171891041";
-            const fullMsg = `👤 Ism: ${name}\n💬 Xabar: ${msg}`;
+            const chat_id = "6804374367"; // YANGI CHAT ID O'RNATILDI
+            const fullMsg = `🚀 Yangi xabar!\n👤 Ism: ${name}\n💬 Xabar: ${msg}`;
             
             fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(fullMsg)}`)
-            .then(() => { alert("Yuborildi! ✅"); document.getElementById('userName').value=""; document.getElementById('userMsg').value=""; })
+            .then(res => {
+                if(res.ok) {
+                    alert("Xabar yuborildi! ✅");
+                    document.getElementById('userName').value="";
+                    document.getElementById('userMsg').value="";
+                } else {
+                    alert("Xato! Botga /start bosganingizni tekshiring.");
+                }
+            })
+            .catch(() => alert("Internetda xato!"))
             .finally(() => btn.innerText = "YUBORISH");
         }
 
+        // MATRIX VA INTRO (7 SEKUND)
         const mCanvas = document.getElementById('matrix-intro-canvas');
         const mCtx = mCanvas.getContext('2d');
         mCanvas.width = window.innerWidth; mCanvas.height = window.innerHeight;
@@ -159,7 +169,12 @@
         setTimeout(() => {
             clearInterval(mInterval);
             document.getElementById('intro-screen').style.opacity = "0";
-            setTimeout(() => { document.getElementById('intro-screen').style.display = "none"; document.getElementById('main-wrapper').style.display = "block"; setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50); initSnow(); startClock(); }, 1500);
+            setTimeout(() => { 
+                document.getElementById('intro-screen').style.display = "none"; 
+                document.getElementById('main-wrapper').style.display = "block"; 
+                setTimeout(() => document.getElementById('main-wrapper').style.opacity = "1", 50); 
+                initSnow(); startClock(); 
+            }, 1500);
         }, 7000);
 
         let currentPage = 1;
