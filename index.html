@@ -14,39 +14,30 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; }
         
-        /* FON VA KANVASLAR */
         canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
         #snow-canvas { z-index: 1; pointer-events: none; } 
         #canvas-3d { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; display: none; background: #000; }
         #input_video { display: none !important; }
 
-        /* ASOSIY KONTENT */
         #main-content { height: 100vh; width: 100%; position: relative; z-index: 100; }
         .page { position: absolute; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .active { display: flex; }
 
-        /* PANEL VA DIZAYN */
         .cyber-panel { border: 1px solid #0f0; background: rgba(0, 0, 0, 0.85); padding: 15px; border-radius: 15px; width: 100%; max-width: 340px; margin: 10px 0; position: relative; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
         .cyber-panel::before { content: attr(data-label); position: absolute; top: -10px; left: 15px; background: #000; color: #0f0; font-size: 11px; padding: 0 8px; border: 1px solid #0f0; text-transform: uppercase; letter-spacing: 1px; }
         
         video { width: 100%; border-radius: 8px; border: 1px solid rgba(0,255,0,0.5); }
-        audio { width: 100%; height: 40px; filter: invert(100%) hue-rotate(90deg) brightness(1.5); margin-top: 5px; }
-        
         .controls { display: flex; justify-content: space-around; align-items: center; margin-top: 10px; }
         .c-btn { background: none; border: 1px solid #0f0; color: #0f0; padding: 5px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 18px; }
-        .c-btn:hover { background: #0f0; color: #000; box-shadow: 0 0 10px #0f0; }
 
-        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; transition: 0.3s; }
+        .nav-btn { position: fixed; top: 50%; transform: translateY(-50%); font-size: 45px; color: #0f0; cursor: pointer; z-index: 1000; text-shadow: 0 0 15px #0f0; }
         #nextBtn { right: 10px; } #prevBtn { left: 10px; display: none; }
 
         .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid #0f0; margin-bottom: 15px; box-shadow: 0 0 15px #0f0; }
-        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; transition: 0.3s; font-size: 14px; }
+        .card { width: 260px; padding: 10px; margin: 6px 0; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: flex; align-items: center; background: rgba(0, 255, 0, 0.1); border: 1px solid #0f0; font-size: 14px; }
         
         input, textarea { width: 100%; padding: 10px; margin: 5px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 5px; outline: none; }
         .send-btn { width: 100%; padding: 10px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #000; margin-top: 5px; }
-        .heart-active { color: #ff0000 !important; transform: scale(1.2); text-shadow: 0 0 15px #ff0000; }
-
-        /* 4-BO'LIM UCHUN MAXSUS STIL */
         #cam-status { position: absolute; bottom: 80px; font-family: monospace; color: #0f0; font-size: 14px; z-index: 1001; }
     </style>
 </head>
@@ -63,18 +54,12 @@
         <div class="page active" id="p1">
             <img src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration_138676-2387.jpg" class="avatar">
             <h2 style="color:#0f0; margin-bottom:10px; letter-spacing: 3px;">ASADBEK</h2>
-            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C; margin-right: 10px;"></i> Instagram</a>
-            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc; margin-right: 10px;"></i> Telegram</a>
-            <a href="https://youtube.com/@meliqoziyev" class="card"><i class="fab fa-youtube" style="color:#FF0000; margin-right: 10px;"></i> YouTube</a>
+            <a href="https://instagram.com/ezz_mafiya" class="card"><i class="fab fa-instagram" style="color:#E1306C; margin-right:10px;"></i> Instagram</a>
+            <a href="https://t.me/Pain_2007" class="card"><i class="fab fa-telegram" style="color:#0088cc; margin-right:10px;"></i> Telegram</a>
         </div>
 
         <div class="page" id="p2">
             <div id="big-time" style="font-size: 24px; color: #0f0; font-family: monospace; margin-bottom: 10px;">00:00:00</div>
-            <div class="cyber-panel" data-label="Music Player">
-                <audio id="myAudio" controls>
-                    <source src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/Elvin%20Mirz%C9%99zad%C9%99%20-%20D%C3%BC%C5%9F%C3%BCn%20M%C9%99ni.mp3" type="audio/mp3">
-                </audio>
-            </div>
             <div class="cyber-panel" data-label="Video Player">
                 <video id="mainVideo">
                     <source id="videoSrc" src="https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4" type="video/mp4">
@@ -84,10 +69,6 @@
                     <button class="c-btn" onclick="toggleVideo()" id="playBtn"><i class="fas fa-play"></i></button>
                     <button class="c-btn" onclick="changeVideo(1)"><i class="fas fa-forward"></i></button>
                 </div>
-                <div style="margin-top: 15px; border-top: 1px solid rgba(0,255,0,0.2); padding-top: 10px; cursor: pointer;" onclick="toggleLike()">
-                    <i id="heart-icon" class="fas fa-heart" style="font-size: 22px;"></i>
-                    <span id="like-num" style="color: #0f0; margin-left: 5px;">350</span>
-                </div>
             </div>
         </div>
 
@@ -95,48 +76,40 @@
             <div class="cyber-panel" data-label="Contact Me">
                 <input type="text" id="uName" placeholder="Ismingiz">
                 <textarea id="uMsg" placeholder="Xabaringiz..."></textarea>
-                <button class="send-btn" onclick="sendMessage()">YUBORISH</button>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">YUBORISH</button>
             </div>
         </div>
 
         <div class="page" id="p4">
-            <h3 style="color:#0f0; position:absolute; top:20px; width:100%; text-align:center; z-index:1001; font-family: monospace; letter-spacing: 5px;">NEON CRYSTAL CORE</h3>
+            <h3 style="color:#0f0; position:absolute; top:20px; font-family: monospace; letter-spacing: 5px;">CORE SYSTEM</h3>
             <div id="cam-status">Kamera yuklanmoqda...</div>
-            <p style="color:#0f0; position:absolute; bottom:30px; width:100%; text-align:center; z-index:1001; font-size: 12px; opacity: 0.7;">Qo'lingizni ekranga qarating va boshqaring</p>
         </div>
     </div>
 
     <script>
-        // --- 1, 2, 3-BO'LIM FUNKSIYALARI (TEGILMADI) ---
-        const video = document.getElementById('mainVideo');
-        const videoSrc = document.getElementById('videoSrc');
-        const playBtn = document.getElementById('playBtn');
-        const videos = [
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4",
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260301_001120_168.mp4",
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_180350_682.mp4",
-            "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260302_234650_212.mp4"
-        ];
-        let currentVid = 0;
-
-        function toggleVideo() {
-            if (video.paused) { video.play(); playBtn.innerHTML = '<i class="fas fa-pause"></i>'; }
-            else { video.pause(); playBtn.innerHTML = '<i class="fas fa-play"></i>'; }
-        }
-        function changeVideo(dir) {
-            currentVid = (currentVid + dir + videos.length) % videos.length;
-            videoSrc.src = videos[currentVid];
-            video.load(); video.play();
-            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        }
-        function toggleLike() {
-            const h = document.getElementById('heart-icon');
-            h.classList.toggle('heart-active');
-        }
+        // --- TELEGRAM SOZLAMALARI ---
         function sendMessage() {
-            alert('Xabar yuborildi!');
-            document.getElementById('uName').value = "";
-            document.getElementById('uMsg').value = "";
+            const name = document.getElementById('uName');
+            const msg = document.getElementById('uMsg');
+            const btn = document.getElementById('sendBtn');
+            
+            const token = "7725172926:AAH6vP2S-f8R8N9U5BfXqYh-fG_H3f-y8f8"; 
+            const chat_id = "6804374367"; 
+
+            if(name.value.trim() && msg.value.trim()) {
+                btn.innerText = "YUBORILMOQDA...";
+                btn.disabled = true;
+
+                const text = `🚀 SAYTDAN XABAR!\n👤 Ism: ${name.value}\n💬 Xabar: ${msg.value}`;
+                const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
+
+                fetch(url).then(() => {
+                    alert("Xabar yuborildi!");
+                    name.value = ""; msg.value = "";
+                }).finally(() => {
+                    btn.innerText = "YUBORISH"; btn.disabled = false;
+                });
+            } else { alert("To'ldiring!"); }
         }
 
         // --- QOR EFFEKTI ---
@@ -149,119 +122,80 @@
             sCtx.clearRect(0,0,sCanvas.width,sCanvas.height);
             sCtx.fillStyle = "white";
             snow.forEach(p => {
-                sCtx.beginPath(); sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); sCtx.fill();
                 p.y += p.s; if(p.y > sCanvas.height) p.y = -5;
+                sCtx.beginPath(); sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); sCtx.fill();
             });
             requestAnimationFrame(drawSnow);
         }
         drawSnow();
 
-        // --- 4-BO'LIM: NEON CRYSTAL (THREE.JS YANGI SHAKL) ---
-        let scene, camera3d, renderer, crystal, points, camActive = false;
+        // --- VIDEO ---
+        const video = document.getElementById('mainVideo');
+        const videoSrc = document.getElementById('videoSrc');
+        const playBtn = document.getElementById('playBtn');
+        const vids = ["https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260217_042543_562.mp4", "https://raw.githubusercontent.com/meliqoziyevuz/Asadbek/main/VID_20260301_001120_168.mp4"];
+        let curV = 0;
+        function toggleVideo() { if (video.paused) { video.play(); playBtn.innerHTML = 'PAUSE'; } else { video.pause(); playBtn.innerHTML = 'PLAY'; } }
+        function changeVideo(d) { curV = (curV+d+vids.length)%vids.length; videoSrc.src = vids[curV]; video.load(); video.play(); }
 
-        function initCrystalEffect() {
+        // --- 4-BO'LIM: 3D VA KAMERA ---
+        let scene, camera3d, renderer, shape, camActive = false;
+        function init3D() {
             scene = new THREE.Scene();
-            camera3d = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera3d = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
             camera3d.position.z = 3;
-
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.getElementById('canvas-3d').innerHTML = "";
             document.getElementById('canvas-3d').appendChild(renderer.domElement);
-
-            // Markaziy Kristal (Icosahedron)
-            const geo = new THREE.IcosahedronGeometry(1, 0);
-            const mat = new THREE.MeshPhongMaterial({
-                color: 0x00ff00,
-                wireframe: true,
-                emissive: 0x00ff00,
-                emissiveIntensity: 0.5
-            });
-            crystal = new THREE.Mesh(geo, mat);
-            scene.add(crystal);
-
-            // Atrofdagi rangli nuqtalar
-            const pGeo = new THREE.BufferGeometry();
-            const pCount = 1000;
-            const pPos = new Float32Array(pCount * 3);
-            for(let i=0; i<pCount*3; i++) pPos[i] = (Math.random() - 0.5) * 10;
-            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-            
-            const pMat = new THREE.PointsMaterial({ size: 0.05, color: 0x00ffff });
-            points = new THREE.Points(pGeo, pMat);
-            scene.add(points);
-
-            // Yorug'lik
-            const light = new THREE.PointLight(0xff00ff, 2, 10);
-            light.position.set(2, 2, 2);
-            scene.add(light);
-            scene.add(new THREE.AmbientLight(0x404040));
+            shape = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 0), new THREE.MeshPhongMaterial({ color: 0x00ff00, wireframe: true }));
+            scene.add(shape);
+            const light = new THREE.PointLight(0xffffff, 1, 100); light.position.set(5, 5, 5); scene.add(light);
         }
 
-        function animateCrystal() {
-            if (crystal) {
-                crystal.rotation.y += 0.01;
-                crystal.rotation.x += 0.005;
-                points.rotation.y -= 0.002;
-                
-                // Rangni vaqtga qarab o'zgartirish (Rainbow effect)
+        function animate3D() {
+            if(shape) {
+                shape.rotation.y += 0.01;
                 const hue = Date.now() * 0.0001 % 1;
-                crystal.material.color.setHSL(hue, 1, 0.5);
-                crystal.material.emissive.setHSL(hue, 1, 0.5);
+                shape.material.color.setHSL(hue, 1, 0.5);
             }
             renderer.render(scene, camera3d);
-            if(camActive) requestAnimationFrame(animateCrystal);
+            if(camActive) requestAnimationFrame(animate3D);
         }
 
-        // --- HAND TRACKING ---
         const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
-        hands.setOptions({ maxNumHands: 1, minDetectionConfidence: 0.7 });
-        
+        hands.setOptions({ maxNumHands: 1, minDetectionConfidence: 0.6 });
         hands.onResults(res => {
             if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
                 const lm = res.multiHandLandmarks[0];
+                shape.rotation.x = lm[8].y * 5;
+                shape.rotation.y = lm[8].x * 5;
                 document.getElementById('cam-status').innerText = "SYSTEM: CONNECTED";
-                document.getElementById('cam-status').style.color = "#0f0";
-                
-                // Kristalni qo'l harakatiga qarab aylantirish va kattalashtirish
-                crystal.rotation.z = lm[8].x * 5;
-                const scale = 1 + (1 - lm[8].y);
-                crystal.scale.set(scale, scale, scale);
-            } else {
-                document.getElementById('cam-status').innerText = "Qo'lingizni ko'rsating...";
-                document.getElementById('cam-status').style.color = "#fff";
             }
         });
 
-        const camControl = new Camera(document.getElementById('input_video'), {
+        // KAMERANI YOQISH QISMI (XATOLIKLAR TUZATILDI)
+        const camera = new Camera(document.getElementById('input_video'), {
             onFrame: async () => { await hands.send({image: document.getElementById('input_video')}); },
-            width: 480, height: 360
+            width: 640, height: 480, facingMode: 'user'
         });
 
-        // --- NAVIGATSIYA ---
         function movePage(s) {
             let curr = document.querySelector('.page.active');
             let n = parseInt(curr.id.replace('p', '')) + s;
             if(n<1 || n>4) return;
             curr.classList.remove('active'); document.getElementById('p'+n).classList.add('active');
-            
             document.getElementById('prevBtn').style.display = (n==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (n==4)?'none':'block';
-
             if(n === 4) {
                 document.getElementById('canvas-3d').style.display = 'block';
-                if(!camActive) {
-                    initCrystalEffect();
-                    camControl.start().then(() => {
-                        camActive = true;
-                        animateCrystal();
-                    });
-                }
-            } else {
-                document.getElementById('canvas-3d').style.display = 'none';
-            }
+                init3D(); camActive = true; animate3D();
+                camera.start().catch(err => {
+                    document.getElementById('cam-status').innerText = "Kameraga ruxsat bering! (Sayt qulfini bosing)";
+                    console.log(err);
+                });
+            } else { document.getElementById('canvas-3d').style.display = 'none'; camActive = false; }
         }
-
         setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
