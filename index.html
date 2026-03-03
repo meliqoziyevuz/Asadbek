@@ -34,17 +34,7 @@
         input, textarea { width: 100%; padding: 10px; margin: 5px 0; background: #000; border: 1px solid #0f0; color: #fff; border-radius: 5px; outline: none; }
         .send-btn { width: 100%; padding: 10px; background: #0f0; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; color: #000; margin-top: 5px; }
         
-        #success-msg { 
-            display: none; 
-            color: #0f0; 
-            font-family: monospace; 
-            border: 1px solid #0f0; 
-            padding: 20px; 
-            background: rgba(0,0,0,0.85); 
-            border-radius: 15px; 
-            box-shadow: 0 0 15px #0f0; 
-            max-width: 300px;
-        }
+        #success-msg { display: none; color: #0f0; font-family: monospace; border: 1px solid #0f0; padding: 20px; background: rgba(0,0,0,0.85); border-radius: 15px; box-shadow: 0 0 15px #0f0; max-width: 300px; }
     </style>
 </head>
 <body>
@@ -97,8 +87,8 @@
         </div>
 
         <div class="page" id="p4">
-            <h3 style="color:#0f0; position:absolute; top:20px; z-index:1001; font-family: monospace; letter-spacing: 5px;">PRO SOLAR CONTROL</h3>
-            <div id="ai-status" style="color:#0f0; position:absolute; bottom:30px; z-index:1001; font-family: monospace; font-size: 12px; border: 1px solid #0f0; padding: 8px 15px; background: rgba(0,0,0,0.8);">PINCH TO ZOOM | MOVE TO ROTATE</div>
+            <h3 style="color:#0f0; position:absolute; top:20px; z-index:1001; font-family: monospace; letter-spacing: 5px;">REAL SOLAR SYSTEM</h3>
+            <div id="ai-status" style="color:#0f0; position:absolute; bottom:30px; z-index:1001; font-family: monospace; font-size: 12px; border: 1px solid #0f0; padding: 8px 15px; background: rgba(0,0,0,0.8);">HAND CONTROL ACTIVE</div>
         </div>
     </div>
 
@@ -120,123 +110,83 @@
             const token = "7725172926:AAHaVKSy6J-oaQnBSYy5bGKqSKIr-UQrOIM"; 
             const chat_id = "6804374367"; 
             if(!name || !msg) { alert("Iltimos, to'liq to'ldiring!"); return; }
-            const text = `🚀 Saytdan xabar!\n👤 Ism: ${name}\n💬 Xabar: ${msg}`;
-            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`).then(res => {
-                if(res.ok) { 
-                    document.getElementById('contact-panel').style.display = 'none';
-                    document.getElementById('success-msg').style.display = 'block';
-                }
-                else { alert("Xatolik! ❌"); }
-            }).catch(err => alert("Internet bilan muammo! ❌"));
+            fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent('🚀 Ism: '+name+'\n💬: '+msg)}`).then(res => {
+                if(res.ok) { document.getElementById('contact-panel').style.display = 'none'; document.getElementById('success-msg').style.display = 'block'; }
+            });
         }
 
         const sCanvas = document.getElementById('snow-canvas');
         const sCtx = sCanvas.getContext('2d');
         sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
-        let snowVisible = true;
-        let snow = [];
+        let snowVisible = true, snow = [];
         for(let i=0; i<80; i++) snow.push({x: Math.random()*sCanvas.width, y: Math.random()*sCanvas.height, r: Math.random()*2+1, s: Math.random()*1+0.5});
         function drawSnow() { sCtx.clearRect(0,0,sCanvas.width,sCanvas.height); if(!snowVisible) return requestAnimationFrame(drawSnow); sCtx.fillStyle = "white"; snow.forEach(p => { sCtx.beginPath(); sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2); sCtx.fill(); p.y += p.s; if(p.y > sCanvas.height) p.y = -5; }); requestAnimationFrame(drawSnow); }
         drawSnow();
         setInterval(() => { document.getElementById('big-time').innerText = new Date().toLocaleTimeString('uz-UZ', {hour12:false}); }, 1000);
 
-        // --- 4-BO'LIM: YANGILANGAN REALISTIK SOLAR SYSTEM ---
+        // --- 4-BO'LIM: SUPER REALISTIK SOLAR SYSTEM ---
         let scene, camera3d, renderer, solarGroup, starsGroup, camActive = false;
         let planets = [];
-        let targetScale = 1; let currentScale = 1;
+        let targetScale = 1, currentScale = 1;
 
         function initSolarSystem() {
             scene = new THREE.Scene();
             
-            // Yulduzlar to'dasi (Reallik uchun)
+            // Yulduzlar harakati
+            starsGroup = new THREE.Group();
             const starGeo = new THREE.BufferGeometry();
             const starCoords = [];
-            for(let i=0; i<5000; i++) {
-                starCoords.push((Math.random()-0.5)*2000, (Math.random()-0.5)*2000, (Math.random()-0.5)*2000);
-            }
+            for(let i=0; i<8000; i++) starCoords.push((Math.random()-0.5)*3000, (Math.random()-0.5)*3000, (Math.random()-0.5)*3000);
             starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
-            scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({color: 0xffffff, size: 0.7})));
+            starsGroup.add(new THREE.Points(starGeo, new THREE.PointsMaterial({color: 0xffffff, size: 0.8})));
+            scene.add(starsGroup);
 
-            camera3d = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-            camera3d.position.z = 50;
+            camera3d = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 4000);
+            camera3d.position.z = 80;
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
             document.getElementById('canvas-3d').innerHTML = "";
             document.getElementById('canvas-3d').appendChild(renderer.domElement);
 
             solarGroup = new THREE.Group(); scene.add(solarGroup);
 
-            // QUYOSH (Real tekstura va olov effektlari)
-            const texLoader = new THREE.TextureLoader();
-            const sunTex = texLoader.load('https://threejs.org/examples/textures/planets/sun.jpg');
+            // HAQIQIY QUYOSH (Glow va PointLight bilan)
             const sunGroup = new THREE.Group();
-            
-            // Quyosh yadrosi
-            const sunCore = new THREE.Mesh(
-                new THREE.SphereGeometry(6, 64, 64),
-                new THREE.MeshBasicMaterial({ map: sunTex })
-            );
+            const sunCore = new THREE.Mesh(new THREE.SphereGeometry(7, 64, 64), new THREE.MeshBasicMaterial({ color: 0xffdd00 }));
             sunGroup.add(sunCore);
-
-            // Quyosh atrofidagi glow (nurlanish) effekti
-            const glowMat = new THREE.MeshBasicMaterial({
-                color: 0xffaa00,
-                transparent: true,
-                opacity: 0.3,
-                side: THREE.BackSide
-            });
-            const sunGlow = new THREE.Mesh(
-                new THREE.SphereGeometry(6.5, 64, 64),
-                glowMat
-            );
-            sunGroup.add(sunGlow);
-            
+            // Quyosh nuri qatlamlari
+            for(let i=1; i<=3; i++) {
+                sunGroup.add(new THREE.Mesh(new THREE.SphereGeometry(7+(i*1.5), 64, 64), new THREE.MeshBasicMaterial({ color: 0xff6600, transparent: true, opacity: 0.4/i, side: THREE.BackSide })));
+            }
             solarGroup.add(sunGroup);
 
-            // Yorug'lik (Sayyoralar bir tomoni yoritilishi uchun)
-            const sunLight = new THREE.PointLight(0xffffff, 2.5, 400);
+            const sunLight = new THREE.PointLight(0xffffff, 3.5, 1000);
+            sunLight.castShadow = true;
             scene.add(sunLight);
-            scene.add(new THREE.AmbientLight(0x111111));
+            scene.add(new THREE.AmbientLight(0x222222));
 
             const pData = [
-                { name: "Mercury", size: 0.7, dist: 14, speed: 0.04, tex: 'mercury.jpg' },
-                { name: "Venus", size: 1.3, dist: 20, speed: 0.02, tex: 'venus_surface.jpg' },
-                { name: "Earth", size: 1.4, dist: 28, speed: 0.015, tex: 'earth_atmos_2048.jpg' },
-                { name: "Mars", size: 1.0, dist: 36, speed: 0.012, tex: 'mars.jpg' },
-                { name: "Jupiter", size: 3.2, dist: 50, speed: 0.008, tex: 'jupiter.jpg' },
-                { name: "Saturn", size: 2.8, dist: 65, speed: 0.006, tex: 'saturn.jpg', ring: true }
+                { color: 0x888888, size: 0.7, dist: 16, speed: 0.04 },
+                { color: 0xe3bb76, size: 1.3, dist: 24, speed: 0.02 },
+                { color: 0x2277ff, size: 1.4, dist: 34, speed: 0.015 },
+                { color: 0xff4422, size: 1.0, dist: 44, speed: 0.012 },
+                { color: 0xd39c7e, size: 3.5, dist: 65, speed: 0.008 },
+                { color: 0xc5ab6e, size: 3.0, dist: 85, speed: 0.006, ring: true }
             ];
 
             pData.forEach(p => {
                 const pGroup = new THREE.Group();
-                const mesh = new THREE.Mesh(
-                    new THREE.SphereGeometry(p.size, 64, 64),
-                    new THREE.MeshStandardMaterial({ 
-                        map: texLoader.load(`https://threejs.org/examples/textures/planets/${p.tex}`),
-                        roughness: 0.8,
-                        metalness: 0.1
-                    })
-                );
-                mesh.position.x = p.dist;
+                const mesh = new THREE.Mesh(new THREE.SphereGeometry(p.size, 64, 64), new THREE.MeshStandardMaterial({ color: p.color, roughness: 0.7, metalness: 0.2 }));
+                mesh.position.x = p.dist; mesh.castShadow = true; mesh.receiveShadow = true;
                 pGroup.add(mesh);
-
                 if(p.ring) {
-                    const ring = new THREE.Mesh(
-                        new THREE.RingGeometry(p.size + 1, p.size + 3.5, 64),
-                        new THREE.MeshStandardMaterial({ color: 0x888888, side: THREE.DoubleSide, transparent: true, opacity: 0.5 })
-                    );
+                    const ring = new THREE.Mesh(new THREE.RingGeometry(p.size+1, p.size+4, 64), new THREE.MeshStandardMaterial({ color: 0x888888, side: THREE.DoubleSide, transparent: true, opacity: 0.4 }));
                     ring.position.x = p.dist; ring.rotation.x = Math.PI/2.3; pGroup.add(ring);
                 }
-
-                // Orbital chiziqlar
-                const orbit = new THREE.Mesh(
-                    new THREE.TorusGeometry(p.dist, 0.02, 16, 100),
-                    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1 })
-                );
-                orbit.rotation.x = Math.PI/2;
-                solarGroup.add(orbit);
-
+                const orbit = new THREE.Mesh(new THREE.TorusGeometry(p.dist, 0.03, 16, 100), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1 }));
+                orbit.rotation.x = Math.PI/2; solarGroup.add(orbit);
                 solarGroup.add(pGroup);
                 planets.push({ group: pGroup, mesh: mesh, speed: p.speed });
             });
@@ -247,11 +197,10 @@
         hands.onResults(res => {
             if (res.multiHandLandmarks && res.multiHandLandmarks.length > 0) {
                 const lm = res.multiHandLandmarks[0];
-                // Qo'l harakatini silliqroq qilish
-                solarGroup.rotation.y += ((lm[8].x - 0.5) * 6 - solarGroup.rotation.y) * 0.1;
-                solarGroup.rotation.x += ((lm[8].y - 0.5) * 6 - solarGroup.rotation.x) * 0.1;
-                const dist = Math.sqrt(Math.pow(lm[4].x - lm[8].x, 2) + Math.pow(lm[4].y - lm[8].y, 2));
-                targetScale = THREE.MathUtils.mapLinear(dist, 0.05, 0.3, 0.4, 2.5);
+                solarGroup.rotation.y += ((lm[8].x - 0.5) * 5 - solarGroup.rotation.y) * 0.1;
+                solarGroup.rotation.x += ((lm[8].y - 0.5) * 5 - solarGroup.rotation.x) * 0.1;
+                const dist = Math.sqrt(Math.pow(lm[4].x-lm[8].x,2) + Math.pow(lm[4].y-lm[8].y,2));
+                targetScale = THREE.MathUtils.mapLinear(dist, 0.05, 0.3, 0.5, 2.5);
             }
         });
 
@@ -265,10 +214,8 @@
             requestAnimationFrame(animateSolar);
             currentScale += (targetScale - currentScale) * 0.05;
             solarGroup.scale.set(currentScale, currentScale, currentScale);
-            planets.forEach(p => { 
-                p.group.rotation.y += p.speed; 
-                p.mesh.rotation.y += 0.01; // Sayyoraning o'z o'qi atrofida aylanishi
-            });
+            planets.forEach(p => { p.group.rotation.y += p.speed; p.mesh.rotation.y += 0.02; });
+            starsGroup.rotation.y += 0.0002; // Yulduzlar aylanadi
             renderer.render(scene, camera3d);
         }
 
