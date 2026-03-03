@@ -205,78 +205,7 @@
             document.getElementById('prevBtn').style.display = (n==1)?'none':'block';
             document.getElementById('nextBtn').style.display = (n==4)?'none':'block';
             if(n === 4) { snowVisible = false; document.getElementById('canvas-3d').style.display = 'block'; if(!camActive) { initSolarSystem(); camAI.start(); camActive = true; animateSolar(); } }
-            else { snowVisible = true; document.getElementById('canvas-3d').style.display = 'none'; }
-        // --- SODDALASHTIRILGAN AI YORDAMCHI ---
-const synth = window.speechSynthesis;
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition;
-
-if (SpeechRecognition) {
-    recognition = new SpeechRecognition();
-    recognition.lang = 'uz-UZ';
-    recognition.continuous = true;
-}
-
-function speak(text) {
-    // Avvalgi gapni to'xtatish
-    synth.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Ovoz sozlamalari
-    utterance.lang = 'uz-UZ'; // O'zbekcha o'qishga harakat qiladi
-    utterance.pitch = 1.1;
-    utterance.rate = 1.0;
-    
-    // Agar o'zbek tili bo'lmasa, rus tilida o'qish (u o'zbekchaga yaqinroq eshitiladi)
-    const voices = synth.getVoices();
-    const uzVoice = voices.find(v => v.lang.includes('uz'));
-    if (uzVoice) {
-        utterance.voice = uzVoice;
-    } else {
-        utterance.lang = 'ru-RU'; // O'zbekcha paket bo'lmasa, ruscha talaffuzda o'qiydi
-    }
-    
-    synth.speak(utterance);
-}
-
-// Saytga bosilganda hammasini uyg'otish
-window.onclick = () => {
-    if (!recognition) return;
-    
-    // Birinchi marta bosilganda salom beradi
-    if (synth.pending || !synth.speaking) {
-        speak("Assalomu alaykum uka! Men sizni eshityapman.");
-        
-        try {
-            recognition.start();
-        } catch (e) {
-            console.log("AI allaqachon ishlab turibdi");
-        }
-    }
-};
-
-if (recognition) {
-    recognition.onresult = (event) => {
-        const command = event.results[event.results.length - 1][0].transcript.toLowerCase();
-        console.log("Buyruq:", command);
-
-        if (command.includes("salom")) {
-            speak("Va alaykum assalom! Yaxshimisiz?");
-        } else if (command.includes("isming nima")) {
-            speak("Mening ismim Asadbek AI.");
-        } else if (command.includes("koinot") || command.includes("planeta")) {
-            speak("Koinot bo'limiga o'tamiz.");
-            movePage(3);
-        } else if (command.includes("musiqa")) {
-            speak("Musiqa qo'yilmoqda.");
-            audio.play();
-        }
-    };
-
-    // Agar xatolik bo'lsa yoki to'xtasa, yana yoqadi
-    recognition.onerror = () => recognition.stop();
-    recognition.onend = () => recognition.start();
-}
+            else { snowVisible = true; document.getElementById('canvas-3d').style.display = 'none'; }      
  </script>
 </body>
 </html>
