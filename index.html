@@ -2,71 +2,57 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Jujutsu Simulator</title>
+    <title>JJK Ultimate Skills</title>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <style>
-        body { margin: 0; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
-        .page { display: none; height: 100vh; align-items: center; justify-content: center; }
-        .active { display: flex; }
-        #video-element { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; transform: scaleX(-1); object-fit: cover; display: none; }
-        #orb { position: fixed; width: 150px; height: 150px; border-radius: 50%; filter: blur(40px); z-index: 10; pointer-events: none; transition: 0.1s; }
-        .controls { position: fixed; bottom: 20px; z-index: 20; }
+        body { margin: 0; background: #000; overflow: hidden; }
+        #video-element { position: fixed; width: 100%; height: 100vh; transform: scaleX(-1); object-fit: cover; opacity: 0.3; }
+        #effect-zone { position: fixed; width: 200px; height: 200px; border-radius: 50%; pointer-events: none; z-index: 10; transition: 0.1s; }
+        .slash { position: absolute; width: 100vw; height: 10px; background: red; transform: rotate(45deg); display: none; }
     </style>
 </head>
 <body>
-
-    <video id="video-element"></video>
-    <div id="orb"></div>
-
-    <div id="p1" class="page active"><h1>1-Sahifa: Asadbek</h1></div>
-    <div id="p5" class="page"><h1>5-Sahifa: Jujutsu Mode</h1></div>
-
-    <button style="position:fixed; top:20px; z-index:100;" onclick="next()">Keyingi</button>
+    <video id="video-element" autoplay playsinline></video>
+    <div id="effect-zone"></div>
+    <div id="slash" class="slash"></div>
 
     <script>
-        let cur = 1;
-        const orb = document.getElementById('orb');
+        const zone = document.getElementById('effect-zone');
+        const slash = document.getElementById('slash');
         const video = document.getElementById('video-element');
 
-        // Effekt boshqaruvi
-        function updateOrb(x, y, type) {
-            orb.style.display = 'block';
-            orb.style.left = (x - 75) + 'px';
-            orb.style.top = (y - 75) + 'px';
-            orb.style.background = (type === 'gojo') ? 'radial-gradient(#a0f, transparent)' : 'radial-gradient(#f00, transparent)';
-        }
-
-        // Mouse/Touch bilan ishlash (Kamera ishlamasa ham ishlaydi)
-        document.addEventListener('mousemove', (e) => {
-            if(cur === 5) updateOrb(e.clientX, e.clientY, 'gojo');
-        });
-
-        // MediaPipe Hands
         const hands = new Hands({locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
+        
         hands.onResults(res => {
-            if(cur === 5 && res.multiHandLandmarks?.length > 0) {
+            if (res.multiHandLandmarks?.length > 0) {
                 const lm = res.multiHandLandmarks[0];
-                updateOrb(lm[0].x * window.innerWidth, lm[0].y * window.innerHeight, 'gojo');
+                const x = (1 - lm[0].x) * window.innerWidth;
+                const y = lm[0].y * window.innerHeight;
+                
+                zone.style.left = (x - 100) + 'px';
+                zone.style.top = (y - 100) + 'px';
+
+                // Qobiliyatlarni aniqlash
+                const isFist = Math.hypot(lm[4].x - lm[8].x, lm[4].y - lm[8].y) < 0.1;
+                const isOpen = !isFist;
+
+                // 1. GOJO: MUSHT (Blue)
+                if (isFist) {
+                    zone.style.background = "radial-gradient(circle, #00f, transparent)";
+                    slash.style.display = 'none';
+                } 
+                // 2. SUKUNA: KAFT (Dismantle Slash)
+                else if (isOpen) {
+                    zone.style.background = "radial-gradient(circle, #f00, transparent)";
+                    slash.style.display = 'block';
+                    slash.style.top = y + 'px';
+                }
             }
         });
 
-        const cam = new Camera(video, { onFrame: async () => await hands.send({image: video}), width: 640, height: 480 });
-
-        function next() {
-            document.getElementById('p'+cur).classList.remove('active');
-            cur = (cur === 5) ? 1 : 5;
-            document.getElementById('p'+cur).classList.add('active');
-            
-            if(cur === 5) {
-                video.style.display = 'block';
-                cam.start().catch(e => console.log("Kamera bloklandi"));
-            } else {
-                video.style.display = 'none';
-                cam.stop();
-                orb.style.display = 'none';
-            }
-        }
+        const camera = new Camera(video, { onFrame: async () => await hands.send({image: video}), width: 1280, height: 720 });
+        camera.start();
     </script>
 </body>
 </html>
